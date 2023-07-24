@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic-one</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    window.onload = function () {
+      nodecg.Replicant('sandboxRep').on('change', (newVal) => {
+        console.log('change sandbox');
+        var _p = document.getElementById('assist-p');
+        var _exp = document.getElementById('assist-exp');
+        var _img = document.getElementById('assist-img');
+        if (newVal.message == '') {
+          _p.classList.add('hidden-element');
+        } else {
+          _p.classList.remove('hidden-element');
+        }
+        if (newVal.url == '') {
+          _img.classList.add('hidden-element');
+          _exp.classList.remove('hidden-element');
+        } else {
+          _img.classList.remove('hidden-element');
+          _exp.classList.add('hidden-element');
+        }
+        _p.textContent = newVal.message;
+        _exp.textContent = '';
+        _img.src = newVal.url;
+      });
+    };
+  </script>
+</html>
