@@ -32,8 +32,8 @@ RUN addgroup --system nodecg \
 COPY --chown=nodecg:nodecg --from=base /nodecg .
 COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/node_modules /nodecg/bundles/test-bundle/node_modules
 COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/dashboard /nodecg/bundles/test-bundle/dashboard
-# COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundles/test-bundle/extension
-# COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/test-bundle/graphics
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundles/test-bundle/extension
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/test-bundle/graphics
 COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/package.json /nodecg/bundles/test-bundle/package.json
 
 EXPOSE 9090/tcp
