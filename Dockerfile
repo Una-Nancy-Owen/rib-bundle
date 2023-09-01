@@ -30,11 +30,11 @@ RUN addgroup --system nodecg \
 	&& chown -R nodecg:nodecg /nodecg
 
 COPY --chown=nodecg:nodecg --from=base /nodecg .
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/node_modules /nodecg/bundles/test-bundle/node_modules
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/dashboard /nodecg/bundles/test-bundle/dashboard
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundles/test-bundle/extension
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/test-bundle/graphics
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/package.json /nodecg/bundles/test-bundle/package.json
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/node_modules /nodecg/bundles/rib-bundle/node_modules
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/dashboard /nodecg/bundles/rib-bundle/dashboard
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundles/rib-bundle/extension
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/rib-bundle/graphics
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/package.json /nodecg/bundles/rib-bundle/package.json
 
 VOLUME /nodecg/cfg /nodecg/bundles /nodecg/logs /nodecg/db /nodecg/assets
 
