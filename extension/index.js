@@ -39,62 +39,175 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var discord_js_1 = require("discord.js");
 var dotenv_1 = __importDefault(require("dotenv"));
+var needleUtility_1 = require("./needleUtility");
+var jsonUtility_1 = require("./jsonUtility");
+var discordMessageReceiver_1 = require("./discordMessageReceiver");
+var AssistContentController_1 = require("./AssistContentController");
 dotenv_1.default.config();
-var client = new discord_js_1.Client({
-    intents: [
-        discord_js_1.GatewayIntentBits.Guilds,
-        discord_js_1.GatewayIntentBits.GuildMembers,
-        discord_js_1.GatewayIntentBits.GuildMessages,
-        discord_js_1.GatewayIntentBits.MessageContent,
-    ],
-});
-module.exports = function (nodecg) {
+function default_1(nodecg) {
     return __awaiter(this, void 0, void 0, function () {
-        var myRep;
-        var _this = this;
+        var assistContentController, assistContentRep, currentRunnerGroupRep, runnerGroupIndexRep, currentRunnerGroupIndex, nextRunnerGroupIndexRep, runnerGroupArrayRep, highlightRep, illustRep;
         return __generator(this, function (_a) {
-            nodecg.log.info("Hello, from your bundle's extension!");
-            myRep = nodecg.Replicant('sandboxRep', {
+            assistContentController = new AssistContentController_1.AssistContentController(nodecg);
+            assistContentRep = nodecg.Replicant('assistContent', {
                 defaultValue: {
-                    message: "no message",
-                    url: "no url"
+                    header: "no header",
+                    content: "no content",
+                    url: "no url",
+                    group: -10
                 }
             });
-            nodecg.Replicant('sandboxRep').on('change', function (newVal) {
-                if (newVal == undefined)
+            currentRunnerGroupRep = nodecg.Replicant('currentRunnerGroup');
+            runnerGroupIndexRep = nodecg.Replicant('currentRunnerGroupIndex');
+            currentRunnerGroupIndex = nodecg.Replicant('currentRunnerGroupIndex');
+            nextRunnerGroupIndexRep = nodecg.Replicant('nextRunnerGroupIndex');
+            runnerGroupArrayRep = nodecg.Replicant('runnerGroups');
+            highlightRep = nodecg.Replicant('highlight');
+            illustRep = nodecg.Replicant('illust');
+            nodecg.listenFor('setNextRunnerGroupIndex', function (index) {
+                var runnerGroupArray = nodecg.readReplicant('runnerGroups');
+                if (runnerGroupArray == undefined)
                     return;
-                console.log('discordRep message: %s', newVal.message);
-                console.log('discordRep url: %s', newVal.url);
+                if (runnerGroupArray.length < index)
+                    return;
+                nextRunnerGroupIndexRep.value = index;
             });
-            client.once('ready', function () {
-                console.log('Ready!');
-            });
-            client.on('messageCreate', function (message) { return __awaiter(_this, void 0, void 0, function () {
-                var file, _message, _url;
-                return __generator(this, function (_a) {
-                    if (message.author.bot)
-                        return [2 /*return*/];
-                    file = message.attachments.first();
-                    _message = message.content;
-                    _url = '';
-                    if (file) {
-                        if (!file.height && !file.width) {
-                        }
-                        else {
-                            _url = file.url;
-                        }
-                    }
-                    myRep.value = {
-                        message: _message,
-                        url: _url,
+            nodecg.listenFor('setCurrentRunnerGroupIndex', function (index) {
+                var runnerGroups = runnerGroupArrayRep.value;
+                if (index < 0 || runnerGroups == undefined)
+                    return;
+                if (runnerGroups.length <= index)
+                    return;
+                runnerGroupIndexRep.value = index;
+                var nextGroup = {
+                    runners: [],
+                    commentators: []
+                };
+                for (var i = 0; i < runnerGroups[index].runners.length; i++) {
+                    var runner = runnerGroups[index].runners[i];
+                    var copiedRunner = {
+                        group: runner.group,
+                        name: runner.name,
+                        commentator: runner.commentator,
+                        title: runner.title,
+                        platform: runner.platform,
+                        category: runner.category,
+                        estimatedTime: runner.estimatedTime,
+                        icon: runner.icon
                     };
-                    return [2 /*return*/];
+                    nextGroup.runners.push(copiedRunner);
+                }
+                for (var i = 0; i < runnerGroups[index].commentators.length; i++) {
+                    var comentator = runnerGroups[index].commentators[i];
+                    var copiedCommentator = {
+                        group: comentator.group,
+                        name: comentator.name,
+                        commentator: comentator.commentator,
+                        title: comentator.title,
+                        platform: comentator.platform,
+                        category: comentator.category,
+                        estimatedTime: comentator.estimatedTime,
+                        icon: comentator.icon
+                    };
+                    nextGroup.commentators.push(copiedCommentator);
+                }
+                currentRunnerGroupRep.value = nextGroup;
+                if (assistContentController.isInitialized()) {
+                    assistContentController.stop();
+                    assistContentController.reset();
+                    assistContentController.setGroupID(index);
+                    assistContentController.resume();
+                }
+                currentRunnerGroupIndex.value = index;
+                var nextIndex = Number(index) + Number(1);
+                var groupsLength = runnerGroups.length;
+                nextRunnerGroupIndexRep.value = nextIndex < groupsLength ? nextIndex : -1;
+            });
+            nodecg.listenFor('getRunnerGroupArrayFromSheet', function (sheetsKey) {
+                (0, needleUtility_1.getSheetData)(sheetsKey).then(function (result) {
+                    if (result.complete) {
+                        (0, jsonUtility_1.RawJsonToRunnerDataArray)(result.body).then(function (data) {
+                            var runnerGroupArray = (0, jsonUtility_1.RunnerDataArrayToRunnersGroupArray)(data);
+                            runnerGroupArrayRep.value = runnerGroupArray;
+                            if (runnerGroupIndexRep.value != undefined) {
+                                if (runnerGroupArray.length <= runnerGroupIndexRep.value) {
+                                    runnerGroupIndexRep.value = 0;
+                                }
+                            }
+                            else {
+                                runnerGroupIndexRep.value = 0;
+                            }
+                        });
+                    }
+                    else {
+                        // 正しく受信できなかった場合
+                        console.log('スプレッドシートからデータが受信できませんでした。');
+                    }
                 });
-            }); });
-            client.login(process.env.DISCORD_TOKEN);
+            });
+            nodecg.listenFor('setAssistContent', function (assistContent) {
+                if (assistContentController.isInitialized()) {
+                    if (assistContent.group == -10) {
+                        assistContentController.stop();
+                        setTimeout(function () {
+                            assistContentController.start();
+                        }, 15000);
+                    }
+                }
+                assistContentRep.value = assistContent;
+            });
+            nodecg.listenFor('getHighlightArrayFromSheet', function (sheetsKey) {
+                (0, needleUtility_1.getSheetData)(sheetsKey).then(function (result) {
+                    if (result.complete) {
+                        (0, jsonUtility_1.RawJsonToAssistContentArray)(result.body).then(function (data) {
+                            highlightRep.value = data;
+                        });
+                    }
+                    else {
+                        // 正しく受信できなかった場合
+                        console.log('スプレッドシートからデータが受信できませんでした。');
+                    }
+                });
+            });
+            nodecg.listenFor('getIllustArrayFromSheet', function (sheetsKey) {
+                (0, needleUtility_1.getSheetData)(sheetsKey).then(function (result) {
+                    if (result.complete) {
+                        (0, jsonUtility_1.RawJsonToAssistContentArray)(result.body).then(function (data) {
+                            for (var i = 0; i < data.length; i++) {
+                                data[i].url = '';
+                            }
+                            illustRep.value = data;
+                        });
+                    }
+                    else {
+                        // 正しく受信できなかった場合
+                        console.log('スプレッドシートからデータが受信できませんでした。');
+                    }
+                });
+            });
+            nodecg.listenFor('setBanner', function (url) {
+                (0, needleUtility_1.urlIsExists)(url).then(function (isExists) {
+                    if (isExists) {
+                        var bannerRep = nodecg.Replicant('banner');
+                        bannerRep.value = url;
+                    }
+                });
+            });
+            nodecg.listenFor('startAssistContentController', function () {
+                if (highlightRep.value == undefined || highlightRep.value == null)
+                    return;
+                if (illustRep.value == undefined || illustRep.value == null)
+                    return;
+                if (0 < highlightRep.value.length && 0 < illustRep.value.length) {
+                    assistContentController.setContent(highlightRep.value, illustRep.value);
+                    assistContentController.start();
+                }
+            });
+            (0, discordMessageReceiver_1.initDiscordMessageReceiver)(nodecg);
             return [2 /*return*/];
         });
     });
-};
+}
+exports.default = default_1;
+;

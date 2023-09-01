@@ -36,6 +36,8 @@ COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundl
 COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/test-bundle/graphics
 COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/package.json /nodecg/bundles/test-bundle/package.json
 
+VOLUME /nodecg/cfg /nodecg/bundles /nodecg/logs /nodecg/db /nodecg/assets
+
 EXPOSE 9090/tcp
 
 CMD ["node", "/nodecg/index.js"]

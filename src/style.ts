@@ -1,7 +1,17 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-   /* ... */
+  * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   overflow: hidden;
+   font-family: 'Noto Sans JP', sans-serif;
+  }
+  body {
+   position: relative;
+   margin: 0;
+  }
  `;
 
 export const GraphicsGlobalStyle = createGlobalStyle`
@@ -10,11 +20,7 @@ export const GraphicsGlobalStyle = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  font-family: 'Noto Sans JP', sans-serif;
+  color:#fff;
 }
-
-.hidden-element{
-  display: none;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Noto+Sans+JP&display=swap');
 `;

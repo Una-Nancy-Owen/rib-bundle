@@ -1,5 +1,5 @@
 {
-  "name": "test-bundle",
+  "name": "rib-bundle",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,17 +7,28 @@
     "compatibleRange": "^2.1.0",
     "dashboardPanels": [
       {
-        "name": "horaro-importer",
-        "title": "Horaro Importer",
-        "width": 3,
-        "file": "horaro-importer.html",
-        "workspace": "Data",
+        "name": "main",
+        "title": "Main",
+        "file": "main.html",
+        "fullbleed": "true",
+        "headerColor": "#6FDFE1"
+      },
+      {
+        "name": "data-importer",
+        "title": "Settings",
+        "file": "data-importer.html",
+        "fullbleed": "true",
         "headerColor": "#525F78"
       }
     ],
     "graphics": [
       {
         "file": "basic-one.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "basic-two.html",
         "width": 1920,
         "height": 1080
       }
@@ -28,6 +39,8 @@
     "lint": "eslint 'src/**/*.{ts,tsx}' webpack.config.ts && tsc --noEmit --project tsconfig.webpack.json && tsc --noEmit",
     "lint:fix": "eslint --fix 'src/**/*.{ts,tsx}' webpack.config.ts && tsc --noEmit --project tsconfig.webpack.json && tsc --noEmit",
     "build": "cross-env NODE_ENV='production' TS_NODE_PROJECT='tsconfig.webpack.json' webpack && tsc -p src/extension/tsconfig.json",
+    "build-dev": "cross-env NODE_ENV='development' TS_NODE_PROJECT='tsconfig.webpack.json' webpack && tsc -p src/extension/tsconfig.json",
+    "start": "node ../../index.js",
     "watch": "cross-env NODE_ENV='production' TS_NODE_PROJECT='tsconfig.webpack.json' webpack --watch"
   },
   "files": [
@@ -40,7 +53,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@nodecg/types": "^2.1.11",
+    "@types/needle": "^3.2.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@types/styled-components": "^5.1.26",
@@ -50,23 +63,24 @@
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.3",
     "prettier": "^2.8.8",
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
+    "ts-nodecg": "^0.3.1",
     "typescript": "^5.1.6",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "axios": "^1.4.0",
     "discord.js": "^14.11.0",
     "dotenv": "^16.3.1",
+    "needle": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
     "styled-components": "^6.0.3"
   }
 }

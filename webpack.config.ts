@@ -27,17 +27,24 @@ const createBrowserConfig = (
     extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   plugins: [
+
     new HtmlWebpackPlugin({
       template: resolve(__dirname, 'src', type, name, 'index.html'),
       filename: `${name}.html`
-    })
+    }),
+
   ],
+  optimization: {
+    minimize: NODE_ENV === 'development' ? false : true
+  },
   externals: ['nodecg'],
   devtool: NODE_ENV === 'development' ? 'inline-source-map' : void 0
 });
 
 const config: Configuration[] = [
-  createBrowserConfig('dashboard', 'horaro-importer'),
-  createBrowserConfig('graphics', 'basic-one')
+  createBrowserConfig('dashboard', 'data-importer'),
+  createBrowserConfig('dashboard', 'main'),
+  createBrowserConfig('graphics', 'basic-one'),
+  createBrowserConfig('graphics', 'basic-two')
 ];
 export default config;
