@@ -8,9 +8,8 @@ import { BsMicFill } from 'react-icons/bs';
 //#region Style
 
 const BasicRunnerIconContainer = styled.img`
+  overflow: visible;
   object-fit: contain;
-  height: 100%;
-  width: 270px;
 `;
 
 const BasicRunnerInfoContainer = styled(BorderedDivElement)`
@@ -182,9 +181,9 @@ export default RunnerInfoContainer;
 const Commentator = React.memo((props: { commentators: RunnerData[] }) => {
   if (props.commentators == undefined) return <></>;
   const items = props.commentators.map((data, i) => (
-    <>
+    <span key={'commentator' + i.toString()}>
       <BsMicFill /> {data.name}
-    </>
+    </span>
   ));
   return <>{items}</>;
 });

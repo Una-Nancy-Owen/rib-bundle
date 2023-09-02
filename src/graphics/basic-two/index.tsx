@@ -1,6 +1,6 @@
 import React from 'react';
 import { GraphicsGlobalStyle } from '../../style';
-import { App } from './App';
+import { App } from './app';
 import { createRoot } from 'react-dom/client';
 
 const container = document.getElementById('app');

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { RunnerGroup, GraphicsType } from 'rib-bundle';
 import styled from 'styled-components';
-import RacingTimer from './RacingTimer';
-import NextRunnerSelector from './NextRunnerSelector';
-import RunnerSwitcher from './RunnerSwitcher';
+import RacingTimer from './racing_timer';
+import NextRunnerSelector from './next_runner_selector';
+import RunnerSwitcher from './runner_switcher';
 
 // #region styles
 

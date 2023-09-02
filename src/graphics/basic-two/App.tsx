@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { BaseWrapper, BaseDisplayContainer, BorderedDivElement, BaseAssistHeader, BaseAssistExp, BaseAssistImg, BaseAssistContainer } from '../ui';
-import TopInfoContainer from './TopInfoContainer';
+import TopInfoContainer from './top_info_container';
 import { RunnerGroup } from 'rib-bundle';
-import BottomLeftInfoContainer from './BottomLeftInfoContainer';
-import { AssistContainer } from './AssistContainer';
+import BottomLeftInfoContainer from './bottom_left_info_container';
+import { AssistContainer } from './assist_container';
 
 //#region styles
 

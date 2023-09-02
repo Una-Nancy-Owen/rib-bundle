@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BaseWrapper, TopContainer, BaseDisplayContainer, RightContainer, BottomContainer } from '../ui';
-import AssistContainer from './AssistContainer';
-import RunnerInfoContainer from './RunnerInfoContainer';
-import Banner from './Banner';
+import AssistContainer from './assist_container';
+import RunnerInfoContainer from './runner_info_container';
+import Banner from './banner';
 
 const Wrapper = styled(BaseWrapper)`
   flex-direction: column;

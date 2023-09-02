@@ -1,10 +1,10 @@
 import { NodeCG } from './nodecg';
 import dotenv from 'dotenv';
 import { AssistContent, RunnerGroup, SheetsKey, GoogleSheetsDataRAWJson, RunnerData } from "rib-bundle";
-import { getSheetData, urlIsExists } from './needleUtility';
-import { rawJsonToRunnerDataArray, rawJsonToAssistContentArray, runnerDataArrayToRunnersGroupArray } from './jsonUtility';
-import { initDiscordMessageReceiver } from './discordMessageReceiver';
-import { AssistContentController } from './assistContentController';
+import { getSheetData, urlIsExists } from './needle_utility';
+import { rawJsonToRunnerDataArray, rawJsonToAssistContentArray, runnerDataArrayToRunnersGroupArray } from './json_utility';
+import { initDiscordMessageReceiver } from './discord_message_receiver';
+import { AssistContentController } from './assist_content_controller';
 
 dotenv.config()
 

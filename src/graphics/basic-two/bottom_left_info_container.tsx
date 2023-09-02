@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { RunnerGroup, RunnerData } from 'rib-bundle';
 import { FaGamepad } from 'react-icons/fa';
 import { BsMicFill } from 'react-icons/bs';
-import Banner from './Banner';
+import Banner from './banner';
 
 // #region styles
 

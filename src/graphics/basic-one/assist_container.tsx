@@ -12,8 +12,8 @@ const AssistDivision = styled(BaseAssistContainer)`
   height: 650px;
 `;
 
-const AssistHeader = styled(BaseAssistHeader)<{ isDisplay: boolean }>`
-  display: ${(props) => (props.isDisplay ? 'inline' : 'none')};
+const AssistHeader = styled(BaseAssistHeader)<{ $isDisplay: boolean }>`
+  display: ${(props) => (props.$isDisplay ? 'inline' : 'none')};
   padding: 10px 5px;
   max-height: 160px;
   min-height: 70px;
@@ -21,14 +21,14 @@ const AssistHeader = styled(BaseAssistHeader)<{ isDisplay: boolean }>`
   font-weight: 700;
 `;
 
-const AssistImg = styled(BaseAssistImg)<{ isDisplay: boolean }>`
-  display: ${(props) => (props.isDisplay ? 'block' : 'none')};
+const AssistImg = styled(BaseAssistImg)<{ $isDisplay: boolean }>`
+  display: ${(props) => (props.$isDisplay ? 'block' : 'none')};
   object-fit: contain;
   height: 100%;
 `;
 
-const AssistExp = styled(BaseAssistExp)<{ isDisplay: boolean }>`
-  display: ${(props) => (props.isDisplay ? 'inline' : 'none')};
+const AssistExp = styled(BaseAssistExp)<{ $isDisplay: boolean }>`
+  display: ${(props) => (props.$isDisplay ? 'inline' : 'none')};
   padding: 10px 10px;
   height: 100%;
   font-size: 36px;
@@ -59,9 +59,9 @@ const AssistContainer = () => {
 
   return (
     <AssistDivision>
-      <AssistHeader isDisplay={showHeader}>{sandboxContent.header}</AssistHeader>
-      <AssistExp isDisplay={showContent}>{sandboxContent.content}</AssistExp>
-      <AssistImg isDisplay={showImage} src={sandboxContent.url} />
+      <AssistHeader $isDisplay={showHeader}>{sandboxContent.header}</AssistHeader>
+      <AssistExp $isDisplay={showContent}>{sandboxContent.content}</AssistExp>
+      <AssistImg $isDisplay={showImage} src={sandboxContent.url} />
     </AssistDivision>
   );
 };

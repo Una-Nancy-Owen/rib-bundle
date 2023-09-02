@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import RunnerGroupArrayUl from './RunnerGroupArrayUl';
+import RunnerGroupArrayUl from './runner_group_array_ul';
 import { ImportOption, RunnerGroup, SheetsKey } from 'rib-bundle';
-import Checker from './Checker';
-import { SheetDataImportForm } from './SheetDataImportForm';
-import { BannerImportForm } from './BannerImport';
+import Checker from './checker';
+import { SheetDataImportForm } from './sheet_data_import_form';
+import { BannerImportForm } from './banner_import';
 
 export function App() {
   const SheetDataFormInputRef = useRef<HTMLInputElement>(null!); // テキストボックスの入力内容を保持するためのフック
