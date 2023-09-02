@@ -42,7 +42,7 @@ const createBrowserConfig = (
 });
 
 const config: Configuration[] = [
-  createBrowserConfig('dashboard', 'data-importer'),
+  createBrowserConfig('dashboard', 'settings'),
   createBrowserConfig('dashboard', 'main'),
   createBrowserConfig('graphics', 'basic-one'),
   createBrowserConfig('graphics', 'basic-two')

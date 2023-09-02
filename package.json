@@ -14,9 +14,9 @@
         "headerColor": "#6FDFE1"
       },
       {
-        "name": "data-importer",
+        "name": "settings",
         "title": "Settings",
-        "file": "data-importer.html",
+        "file": "settings.html",
         "fullbleed": "true",
         "headerColor": "#525F78"
       }
