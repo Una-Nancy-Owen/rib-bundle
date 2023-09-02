@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { RunnerData, RunnerGroup } from 'rib-bundle';
 import { BaseWrapper, TopContainer, BaseDisplayContainer, RightContainer, BottomContainer } from '../ui';
-import AssistWrapper from './AssistWrapper';
+import AssistContainer from './AssistContainer';
 import RunnerInfoContainer from './RunnerInfoContainer';
 import Banner from './Banner';
 
@@ -23,7 +22,7 @@ export function App() {
           <DisplayContainer />
           <RightContainer>
             <Banner />
-            <AssistWrapper />
+            <AssistContainer />
           </RightContainer>
         </TopContainer>
         <BottomContainer>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BaseAssistContainer, BaseAssistHeader, BaseAssistImg, BaseAssistExp } from '../ui';
 
@@ -35,7 +35,7 @@ const AssistExp = styled(BaseAssistExp)<{ isDisplay: boolean }>`
   line-height: 46px;
 `;
 
-const AssistWrapper = () => {
+const AssistContainer = () => {
   const [sandboxContent, setSandboxContent] = useState<AssistContent>();
 
   useEffect(() => {
@@ -66,4 +66,4 @@ const AssistWrapper = () => {
   );
 };
 
-export default AssistWrapper;
+export default AssistContainer;
