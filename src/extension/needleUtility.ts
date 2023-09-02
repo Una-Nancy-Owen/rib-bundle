@@ -24,7 +24,7 @@ export async function getSheetData(sheetsKey: SheetsKey): Promise<NeedleResponse
         if (propertyRes.statusCode !== 200) { // ステータスコードが200でない場合はエラーを返す
             console.log(`HTTP status code was ${propertyRes.statusCode}`);
         }
-        const sheetTitle = GetSheetTitleFromRawPropertyJson(propertyRes.body, sheetsKey.gId); // 取得したデータからGIDが一致するシート名を取得する
+        const sheetTitle = getSheetTitleFromRawPropertyJson(propertyRes.body, sheetsKey.gId); // 取得したデータからGIDが一致するシート名を取得する
         if (sheetTitle !== '') {
             const valuesApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetsKey.sheetId}/values/${sheetTitle}?key=${process.env.GOOGLE_SHEETS_API_KEY}` // SheetIDと取得したシート名を使った、データを取得するためのURL
             response = await needle('get', encodeURI(valuesApiUrl)); // needleを使ってGoogle Spreadsheetsのデータを非同期で取得する
@@ -55,7 +55,7 @@ async function getSheetsDataByUsingGID(sheetId: string, gId: string): Promise<Ne
         if (propertyRes.statusCode !== 200) { // ステータスコードが200でない場合はエラーを返す
             throw new Error(`HTTP status code was ${propertyRes.statusCode}`);
         }
-        const sheetTitle = GetSheetTitleFromRawPropertyJson(propertyRes.body, gId); // 取得したデータからGIDが一致するシート名を取得する
+        const sheetTitle = getSheetTitleFromRawPropertyJson(propertyRes.body, gId); // 取得したデータからGIDが一致するシート名を取得する
         if (sheetTitle === '') { // GIDが一致するシートが見つからなかった場合はエラーを返す
             throw new Error('sheet title was not found');
         }
@@ -70,7 +70,7 @@ async function getSheetsDataByUsingGID(sheetId: string, gId: string): Promise<Ne
     }
 }
 
-function GetSheetTitleFromRawPropertyJson(props: GoogleSheetsPropertyList, gId: string): string {
+function getSheetTitleFromRawPropertyJson(props: GoogleSheetsPropertyList, gId: string): string {
     let sheetTitle: string = ''; // 取得したシート名を代入する変数
     for (let i = 0; i < props.sheets.length; i++) { // 全シートからGIDの一致するシートを見つける
         const _sheet = props.sheets[i] as GoogleSheetsPropertyContainer;

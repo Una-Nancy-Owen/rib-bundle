@@ -2,9 +2,9 @@ import { NodeCG } from './nodecg';
 import dotenv from 'dotenv';
 import { AssistContent, RunnerGroup, SheetsKey, GoogleSheetsDataRAWJson, RunnerData } from "rib-bundle";
 import { getSheetData, urlIsExists } from './needleUtility';
-import { RawJsonToRunnerDataArray, RawJsonToAssistContentArray, RunnerDataArrayToRunnersGroupArray } from './jsonUtility';
+import { rawJsonToRunnerDataArray, rawJsonToAssistContentArray, runnerDataArrayToRunnersGroupArray } from './jsonUtility';
 import { initDiscordMessageReceiver } from './discordMessageReceiver';
-import { AssistContentController } from './AssistContentController';
+import { AssistContentController } from './assistContentController';
 
 dotenv.config()
 
@@ -101,8 +101,8 @@ export default async function (nodecg: NodeCG) {
   nodecg.listenFor('getRunnerGroupArrayFromSheet', (sheetsKey) => {
     getSheetData(sheetsKey).then((result) => {
       if (result.complete) {
-        RawJsonToRunnerDataArray(result.body as GoogleSheetsDataRAWJson).then((data) => {
-          const runnerGroupArray = RunnerDataArrayToRunnersGroupArray(data);
+        rawJsonToRunnerDataArray(result.body as GoogleSheetsDataRAWJson).then((data) => {
+          const runnerGroupArray = runnerDataArrayToRunnersGroupArray(data);
           runnerGroupArrayRep.value = runnerGroupArray;
           if (runnerGroupIndexRep.value != undefined) {
             if (runnerGroupArray.length <= runnerGroupIndexRep.value) {
@@ -134,7 +134,7 @@ export default async function (nodecg: NodeCG) {
   nodecg.listenFor('getHighlightArrayFromSheet', (sheetsKey) => {
     getSheetData(sheetsKey).then((result) => {
       if (result.complete) {
-        RawJsonToAssistContentArray(result.body as GoogleSheetsDataRAWJson).then((data) => {
+        rawJsonToAssistContentArray(result.body as GoogleSheetsDataRAWJson).then((data) => {
           highlightRep.value = data;
         });
       } else {
@@ -147,7 +147,7 @@ export default async function (nodecg: NodeCG) {
   nodecg.listenFor('getIllustArrayFromSheet', (sheetsKey) => {
     getSheetData(sheetsKey).then((result) => {
       if (result.complete) {
-        RawJsonToAssistContentArray(result.body as GoogleSheetsDataRAWJson).then((data) => {
+        rawJsonToAssistContentArray(result.body as GoogleSheetsDataRAWJson).then((data) => {
           for (let i = 0; i < data.length; i++) {
             data[i].url = '';
           }

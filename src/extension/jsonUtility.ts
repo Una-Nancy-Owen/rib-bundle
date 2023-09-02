@@ -1,30 +1,30 @@
 import { RunnerData, RunnerGroup, AssistContent, GoogleSheetsDataRAWJson } from 'rib-bundle'
 
-export async function RawJsonToRunnerDataArray(props: GoogleSheetsDataRAWJson): Promise<RunnerData[]> {
-    const sheetData = await SheetDataToObj(props.values);
+export async function rawJsonToRunnerDataArray(props: GoogleSheetsDataRAWJson): Promise<RunnerData[]> {
+    const sheetData = await sheetDataToObj(props.values);
     return sheetData as RunnerData[];
 }
 
-export async function RawJsonToAssistContentArray(props: GoogleSheetsDataRAWJson): Promise<AssistContent[]> {
-    const sheetData = await SheetDataToObj(props.values);
+export async function rawJsonToAssistContentArray(props: GoogleSheetsDataRAWJson): Promise<AssistContent[]> {
+    const sheetData = await sheetDataToObj(props.values);
     return sheetData as AssistContent[];
 }
 
 
-export function SheetDataToObj(props: Array<Array<string>>) {
+export function sheetDataToObj(props: Array<Array<string>>) {
     const [header, ...rows] = props;
     return rows.map((row) => row.reduce((acc, cell, i) => ({ ...acc, [header[i]]: cell }), {})
     );
 }
 
-export function RawJsonToRunnerGroupArray(props: GoogleSheetsDataRAWJson): RunnerGroup[] {
-    const sheetData = SheetDataToObj(props.values);
+export function rawJsonToRunnerGroupArray(props: GoogleSheetsDataRAWJson): RunnerGroup[] {
+    const sheetData = sheetDataToObj(props.values);
     const runnerDataList = sheetData as RunnerData[];
-    const runnerGroupList = RunnerDataArrayToRunnersGroupArray(runnerDataList);
+    const runnerGroupList = runnerDataArrayToRunnersGroupArray(runnerDataList);
     return runnerGroupList;
 }
 
-export function RunnerDataArrayToRunnersGroupArray(props: RunnerData[]): RunnerGroup[] {
+export function runnerDataArrayToRunnersGroupArray(props: RunnerData[]): RunnerGroup[] {
     let runnerGroupList: RunnerGroup[] = [];
     for (let i = 0; i < props.length; i++) {
         const groupId = i;
