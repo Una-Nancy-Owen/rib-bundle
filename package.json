@@ -2,6 +2,7 @@
   "name": "rib-bundle",
   "version": "1.0.0",
   "description": "",
+  "private": "true",
   "main": "index.js",
   "nodecg": {
     "compatibleRange": "^2.1.0",
@@ -18,17 +19,64 @@
         "title": "Settings",
         "file": "settings.html",
         "fullbleed": "true",
-        "headerColor": "#525F78"
+        "headerColor": "#6FDFE1"
+      },
+      {
+        "name": "showcase",
+        "title": "Showcase",
+        "file": "showcase.html",
+        "fullbleed": "true",
+        "headerColor": "#6FDFE1"
       }
     ],
     "graphics": [
       {
-        "file": "basic-one.html",
+        "file": "square_one.html",
         "width": 1920,
         "height": 1080
       },
       {
-        "file": "basic-two.html",
+        "file": "square_two.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "square_three.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "square_three_metal_max.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "square_four.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "wide_one.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "wide_two.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "wide_three.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "wide_four.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "standby.html",
         "width": 1920,
         "height": 1080
       }
@@ -36,12 +84,15 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint 'src/**/*.{ts,tsx}' webpack.config.ts && tsc --noEmit --project tsconfig.webpack.json && tsc --noEmit",
-    "lint:fix": "eslint --fix 'src/**/*.{ts,tsx}' webpack.config.ts && tsc --noEmit --project tsconfig.webpack.json && tsc --noEmit",
-    "build": "cross-env NODE_ENV='production' TS_NODE_PROJECT='tsconfig.webpack.json' webpack && tsc -p src/extension/tsconfig.json",
-    "build-dev": "cross-env NODE_ENV='development' TS_NODE_PROJECT='tsconfig.webpack.json' webpack && tsc -p src/extension/tsconfig.json",
-    "start": "node ../../index.js",
-    "watch": "cross-env NODE_ENV='production' TS_NODE_PROJECT='tsconfig.webpack.json' webpack --watch"
+    "build": "run-s build:*",
+    "build:dashboard": "(cd src/browser/dashboard && npm run build)",
+    "build:graphics": "(cd src/browser/graphics && npm run build)",
+    "build:extension": "(cd src/server/extension && npm run build)",
+    "watch": "run-p watch:*",
+    "watch:dashboard": "(cd src/browser/dashboard && npx vite build --watch)",
+    "watch:graphics": "(cd src/browser/graphics && npx vite build --watch)",
+    "watch:extension": "(cd src/server/extension && npm run watch)",
+    "start": "node ../../index.js"
   },
   "files": [
     "dashboard",
@@ -50,37 +101,39 @@
     "extension"
   ],
   "keywords": [],
-  "author": "",
+  "author": "U.N.Owen",
   "license": "ISC",
   "devDependencies": {
-    "@types/needle": "^3.2.0",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
-    "@types/styled-components": "^5.1.26",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
-    "cross-env": "^7.0.3",
-    "eslint": "^8.44.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-react": "^7.32.2",
+    "@types/needle": "^3.2.3",
+    "@types/react": "^18.2.27",
+    "@types/react-dom": "^18.2.12",
+    "@types/styled-components": "^5.1.28",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "@vitejs/plugin-react": "^4.1.1",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "html-webpack-plugin": "^5.5.3",
-    "prettier": "^2.8.8",
-    "ts-loader": "^9.4.4",
-    "ts-node": "^10.9.1",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.0.3",
     "ts-nodecg": "^0.3.1",
-    "typescript": "^5.1.6",
-    "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
-    "discord.js": "^14.11.0",
+    "csvtojson": "^2.0.10",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "needle": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.10.1",
-    "styled-components": "^6.0.3"
+    "react-icons": "^4.11.0",
+    "styled-components": "^6.0.8"
   }
 }

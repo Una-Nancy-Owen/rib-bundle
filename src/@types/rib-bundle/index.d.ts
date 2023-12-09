@@ -1,124 +1,116 @@
-declare module "rib-bundle" {
-    interface SheetsKey { // Google Sheetsからデータを取得するために必要なシートIDとGID
-        readonly sheetId: string;
-        readonly gId: string;
-    }
+declare module 'rib-bundle' {
+  type SignalType = 'Start' | 'Stop' | 'Resume' | 'Reset'
 
-    interface GoogleSheetsDataRAWJson {
-        range: string;
-        majorDimensions: string;
-        values: string[][];
-    }
+  type TimerSignal = {
+    signalType: SignalType
+    all: boolean
+    index: number
+  }
 
-    interface GoogleSheetsPropertyList {
-        sheets: GoogleSheetsPropertyContainer[];
-    }
+  type Timer = {
+    startTime: number
+    currentTime: number
+    isRunning: boolean
+    h: string
+    m: string
+    s: string
+    ms: string
+  }
 
-    interface GoogleSheetsPropertyContainer {
-        properties: GoogleSheetsProperty;
-    }
+  type TimerState = {
+    startedEveryone: boolean
+    startedSomeone: boolean
+    individibleTimer: boolean[]
+    startedTimer: boolean[]
+  }
 
-    interface GoogleSheetsProperty {
-        sheetId: number;
-        title: string;
-        index: number;
-        sheetType: string;
-        gridProperties: GoogleSheetsGridProperty;
-    }
+  type Speaker = {
+    enabled: boolean[]
+  }
 
-    interface GoogleSheetsGridProperty {
-        rowCount: number;
-        columnCount: number;
-    }
+  type TimerGroup = {
+    timer: Timer[]
+    runningNum: number
+    showMS: boolean
+  }
 
-    interface AssistContent { // 右枠に表示されるコンテンツ
-        group: number; // 
-        header: string;
-        content: string;
-        url: string;
-    }
+  type GraphicsType =
+    | 'SquareOne'
+    | 'SquareTwo'
+    | 'SquareThree'
+    | 'SquareThreeMetalMax'
+    | 'SquareFour'
+    | 'WideOne'
+    | 'WideTwo'
+    | 'WideThree'
+    | 'WideFour'
+    | 'Undefined'
 
-    interface HoraroItem {
-        length: string;
-        length_t: string;
-        scheduled: string;
-        scheduled_t: string;
-        data: string[];
-    }
+  type RunnerData = {
+    group: number
+    name: string
+    commentator: boolean
+    icon: string
+    title: string
+    platform: string
+    category: string
+    estimatedTime: string
+    graphicsType: GraphicsType
+  }
 
-    interface HoraroData {
-        meta: {
-            exported: string;
-            hint: string;
-            api: string;
-            api_link: string;
-        }
-        schedule: {
-            name: string;
-            slug: string;
-            timezone: string;
-            start: string;
-            start_t: string;
-            website: string;
-            twitter: string;
-            twitch: string;
-            description: string;
-            setup: string;
-            setup_t: string;
-            updated: string;
-            url: string;
-            event: {
-                name: string;
-                slug: string;
-            }
-            columns: string[];
-            items: HoraroItem[]
-        }
-    }
+  type RunnerGroup = {
+    group: number
+    runners: RunnerData[]
+    commentators: RunnerData[]
+    title: string[]
+    platform: string
+    category: string
+    estimatedTime: string
+    graphicsType: GraphicsType
+  }
 
-    interface RunnerGroup {
-        runners: RunnerData[];
-        commentators: RunnerData[];
-    }
+  type SheetsKey = {
+    // Google Sheetsからデータを取得するために必要なシートIDとGID
+    sheetId: string
+    gId: string
+  }
 
-    interface RunnerData {
-        group: number;
-        name: string;
-        commentator: boolean;
-        title: string;
-        platform: string;
-        category: string;
-        estimatedTime: string;
-        icon: string;
-    }
+  type GoogleSheetsRAWJson = {
+    range: string
+    majorDimensions: string
+    values: string[][]
+  }
 
-    type GraphicsType = 'BasicOne' | 'BasicTwo' | 'BasicThree';
+  type GoogleSheetsPropertyArray = {
+    sheets: GoogleSheetsPropertyContainer[]
+  }
 
-    interface ImportOption {
-        // プルダウンメニュー用のインターフェース
-        value: string;
-        label: string;
-    }
+  type GoogleSheetsPropertyContainer = {
+    properties: GoogleSheetsProperty
+  }
 
-    interface ReplicantMap {
-        runnerGroups: RunnerGroup[];
-        currentRunnerGroup: RunnerGroup;
-        currentRunnerGroupIndex: number;
-        nextRunnerGroupIndex: number;
-        highlight: AssistContent[];
-        illust: AssistContent[];
-        assistContent: AssistContent;
-        banner: string;
-    }
+  type GoogleSheetsProperty = {
+    sheetId: number
+    title: string
+    index: number
+    sheetType: string
+    gridProperties: GoogleSheetsGridProperty
+  }
 
-    interface MessageMap {
-        setCurrentRunnerGroupIndex: { data: number },
-        setNextRunnerGroupIndex: { data: number },
-        getRunnerGroupArrayFromSheet: { data: SheetsKey },
-        setAssistContent: { data: AssistContent },
-        getHighlightArrayFromSheet: { data: SheetsKey },
-        getIllustArrayFromSheet: { data: SheetsKey },
-        setBanner: { data: string },
-        startAssistContentController: {}
-    }
+  type GoogleSheetsGridProperty = {
+    rowCount: number
+    columnCount: number
+  }
+
+  type AssistContent = {
+    group: number
+    header: string
+    content: string
+    url: string
+  }
+
+  type LogoImg = {
+    name: string
+    url: string
+  }
 }

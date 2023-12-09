@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "moduleResolution": "node", // モジュールのインポートの解決方法
+    "outDir": "../../../extension",
+    "baseUrl": ".",
+    "rootDirs": ["."],
+    "paths": { "*": ["../../@types/*"] }
+  },
+  "extends": ["../../tsconfig"],
+  "include": ["./**/*", "../server.d.ts"]
+}

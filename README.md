@@ -1,1 +1,1 @@
-# rib-bundle
+# bundle-template
