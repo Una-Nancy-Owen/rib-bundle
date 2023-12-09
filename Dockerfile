@@ -29,12 +29,12 @@ RUN addgroup --system nodecg \
 	&& chown -R nodecg:nodecg /nodecg
 
 COPY --chown=nodecg:nodecg --from=base /nodecg .
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/node_modules /nodecg/bundles/bundle-template/node_modules
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/dashboard /nodecg/bundles/bundle-template/dashboard
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundles/bundle-template/extension
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/bundle-template/graphics
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/assets /nodecg/bundles/bundle-template/assets
-COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/package.json /nodecg/bundles/bundle-template/package.json
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/node_modules /nodecg/bundles/rib-bundle/node_modules
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/dashboard /nodecg/bundles/rib-bundle/dashboard
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/extension /nodecg/bundles/rib-bundle/extension
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/graphics /nodecg/bundles/rib-bundle/graphics
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/assets /nodecg/bundles/rib-bundle/assets
+COPY --chown=nodecg:nodecg --from=builder /bundleBuilder/package.json /nodecg/bundles/rib-bundle/package.json
 
 VOLUME /nodecg/cfg /nodecg/bundles /nodecg/logs /nodecg/db /nodecg/assets
 
