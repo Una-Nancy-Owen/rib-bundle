@@ -56,7 +56,7 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
 
   nodecg.listenFor('toggleCountdownBot', (value) => {
     if (value) {
-      client.login(process.env.DISCORD_SANDBOX_TOKEN)
+      client.login(process.env.DISCORD_COUNTDOWN_TOKEN)
     } else {
       client.destroy()
     }

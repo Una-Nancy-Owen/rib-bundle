@@ -207,7 +207,7 @@ const StAssistContent = styled.div`
   p:nth-child(2) {
     font-weight: 700;
     font-size: 1.6rem;
-    height: 460px;
+    height: 446px;
     padding: 4px 10px;
   }
   p:nth-child(2):empty {
@@ -216,7 +216,7 @@ const StAssistContent = styled.div`
   }
   & > img {
     max-width: 100%;
-    height: 460px;
+    height: 446px;
     object-fit: contain;
   }
 `

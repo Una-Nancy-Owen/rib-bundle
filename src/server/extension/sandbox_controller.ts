@@ -18,7 +18,7 @@ export const sandboxController = (nodecg: NodeCG) => {
   let illustIndex: number = 0
   let isFirstTime: boolean = false
   let contentType: ContentType = 'highlight'
-  const DELAY: number = 3000
+  const DELAY: number = 10000
   const ILLUST_MAX_COUNT = 5
   let highlightContent: AssistContent[][] = []
   let illustContent: AssistContent[] = []
@@ -68,7 +68,13 @@ export const sandboxController = (nodecg: NodeCG) => {
     if (isFirstTime) {
       isFirstTime = false
       highlightIndex = 0
-      updateContent(highlightContent[groupIndex][highlightIndex])
+      if (groupIndex < highlightContent.length) {
+        updateContent(highlightContent[groupIndex][highlightIndex])
+      } else {
+        contentType = 'illust'
+        illustCounter = 0
+        changeIllust()
+      }
     } else if (highlightIndex + 1 < highlightContent[groupIndex].length) {
       highlightIndex++
       updateContent(highlightContent[groupIndex][highlightIndex])
