@@ -14,7 +14,7 @@ export default function App() {
     const title = runnerGroup.title.join('')
     const commentator = runnerGroup.commentators.map((data, index) => <p key={`commentator${index}`}>{data.name}</p>)
     const hasCommentator = 0 < runnerGroup.commentators.length
-    const est = `予定タイム :${runnerGroup.estimatedTime}`
+    const est = `予定タイム ${runnerGroup.estimatedTime}`
     const category = `${runnerGroup.category}`
     return (
       <StWrapper>
@@ -43,11 +43,11 @@ export default function App() {
               </StBottomLeft>
               <StBottomRight>
                 <StTimer>{timerSplitParagraph![0]}</StTimer>
-                <StVerticalGroupRA>
+                <StInfoRightGroup>
                   <AnimParagraphFirst>{est}</AnimParagraphFirst>
                   <AnimParagraphSecond>{category}</AnimParagraphSecond>
                   <AnimParagraphFirst>{est}</AnimParagraphFirst>
-                </StVerticalGroupRA>
+                </StInfoRightGroup>
               </StBottomRight>
             </StBottomInfoContainer>
           </StBottomContainer>
@@ -113,6 +113,7 @@ const StBottomLeft = styled(StVerticalGroup)`
 
 const StBottomRight = styled(StVerticalGroup)`
   justify-content: space-around;
+  align-items: flex-end;
 `
 
 const StLogo = styled.div`
@@ -229,15 +230,16 @@ const StTimer = styled(StHorizontalGroup)`
   }
 `
 
-const StVerticalGroupRA = styled.div`
+const StInfoRightGroup = styled.div`
   margin-left: auto;
-  width: 350px;
+  max-width: 500px;
   height: 50px;
-  padding: 5px 10px;
   & > p {
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `
 
@@ -292,10 +294,13 @@ const AnimSecond = keyframes`
 `
 
 const AnimParagraphFirst = styled.p`
+  margin-left: auto;
+  width: 350px;
   animation: 30s infinite ${AnimFirst};
 `
 
 const AnimParagraphSecond = styled.p`
+  max-width: 500px;
   animation: 30s infinite ${AnimSecond};
   text-align: center;
 `
