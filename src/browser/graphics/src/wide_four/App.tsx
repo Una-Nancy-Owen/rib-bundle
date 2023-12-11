@@ -261,10 +261,12 @@ const StTimer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
   height: 37px;
   opacity: ${(isVisible) => (isVisible.$isVisible ? '1' : '0')};
   background-color: rgb(65 87 145);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 900;
   text-align: center;
-  font-family: 'Noto Sans Mono', monospace;
+  & > p {
+    font-family: 'Noto Sans Mono', monospace;
+  }
 `
 
 const StRightAlignVerticalGroup = styled(StVerticalGroup)`

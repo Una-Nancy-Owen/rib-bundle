@@ -265,7 +265,10 @@ const StTimer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
   font-size: 1.9rem;
   font-weight: 900;
   text-align: center;
-  font-family: 'Noto Sans Mono', monospace;
+  align-items: center;
+  & > p {
+    font-family: 'Noto Sans Mono', monospace;
+  }
 `
 
 const StEstimatedTime = styled(StVerticalGroup)`
