@@ -116,6 +116,7 @@ const StBottomLeft = styled(StVerticalGroup)`
 
 const StBottomRight = styled(StVerticalGroup)`
   justify-content: space-around;
+  align-items: flex-end;
 `
 
 const StLogo = styled.div`
