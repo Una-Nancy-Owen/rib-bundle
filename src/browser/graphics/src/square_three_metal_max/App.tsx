@@ -240,7 +240,7 @@ const StRunnerInfoContainer = styled(StVerticalGroup)<{ $isLeft: boolean }>`
   align-items: ${(isLeft) => (isLeft.$isLeft ? 'flex-start' : 'flex-end')};
   & > div:first-child {
     text-align: ${(isLeft) => (isLeft.$isLeft ? 'left' : 'right')};
-    padding: ${(isLeft) => (isLeft.$isLeft ? '0 0 0 0' : '0 0 0 163px')};
+    padding: ${(isLeft) => (isLeft.$isLeft ? '0 0 0 0' : '0 0 0 164px')};
   }
 `
 const StPairRunnerInfoContainer = styled(StRunnerInfoContainer)`
