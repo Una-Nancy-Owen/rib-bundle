@@ -232,7 +232,7 @@ const StTimer = styled(StHorizontalGroup)`
 
 const StInfoRightGroup = styled.div`
   margin-left: auto;
-  max-width: 500px;
+  max-width: 700px;
   height: 50px;
   & > p {
     text-align: center;
@@ -300,7 +300,7 @@ const AnimParagraphFirst = styled.p`
 `
 
 const AnimParagraphSecond = styled.p`
-  max-width: 500px;
+  max-width: 700px;
   animation: 30s infinite ${AnimSecond};
   text-align: center;
 `
