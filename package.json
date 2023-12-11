@@ -20,13 +20,6 @@
         "file": "settings.html",
         "fullbleed": "true",
         "headerColor": "#6FDFE1"
-      },
-      {
-        "name": "showcase",
-        "title": "Showcase",
-        "file": "showcase.html",
-        "fullbleed": "true",
-        "headerColor": "#6FDFE1"
       }
     ],
     "graphics": [
