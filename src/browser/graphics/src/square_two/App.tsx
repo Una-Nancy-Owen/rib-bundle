@@ -5,7 +5,7 @@ import useSpeakerRef from '@hooks/useSpeakerRef'
 import useTimerSplitParagraph from '@hooks/useTimerSplitParagraph'
 import { StHorizontalGroup, StSquareFrame, StVerticalGroup } from '@ui/style'
 import { memo } from 'react'
-import { styled } from 'styled-components'
+import { keyframes, styled } from 'styled-components'
 
 // 右枠がない！！！
 
@@ -40,6 +40,8 @@ export default function App() {
     const title = runnerGroup.title.map((value, index) => <p key={`title${index.toString()}`}>{value}</p>)
     const commentator = runnerGroup.commentators.map((data, index) => <p key={`commentator${index}`}>{data.name}</p>)
     const hasCommentator = 0 < runnerGroup.commentators.length
+    const est = `予定タイム ${runnerGroup.estimatedTime}`
+    const category = `${runnerGroup.category} / ${runnerGroup.platform}`
     return (
       <StWrapper>
         <StUpperHorizontalGroup>
@@ -50,7 +52,6 @@ export default function App() {
           <StSquareFrame />
           <StSquareFrame />
         </StFrameContainer>
-
         <StBottomContainer>
           <StBottomRightGroup $fullHeight={hasCommentator}>
             <StLogo>{logo}</StLogo>
@@ -61,16 +62,11 @@ export default function App() {
                   <p>{hasCommentator ? '解説' : ''}</p>
                   {commentator}
                 </StCommentatorContainer>
-                <StGameInfo>
-                  <StTitleInfoGroup>
-                    <p>{runnerGroup.category}</p>
-                    <p>{runnerGroup.platform}</p>
-                  </StTitleInfoGroup>
-                  <StEstimatedTime>
-                    <p>予定タイム</p>
-                    <p>{runnerGroup.estimatedTime}</p>
-                  </StEstimatedTime>
-                </StGameInfo>
+                <StInfoRightGroup>
+                  <AnimParagraphFirst>{est}</AnimParagraphFirst>
+                  <AnimParagraphSecond>{category}</AnimParagraphSecond>
+                  <AnimParagraphFirst>{est}</AnimParagraphFirst>
+                </StInfoRightGroup>
               </StVerticalGroup>
             </StInfoMain>
           </StBottomRightGroup>
@@ -180,10 +176,17 @@ const StBottomRightGroup = styled(StHorizontalGroup)<{ $fullHeight: boolean }>`
   border-radius: 8px;
 `
 
-const StGameInfo = styled(StHorizontalGroup)`
-  align-items: center;
-  /* background-color: rgb(32 45 79); */
-  border-radius: 4px;
+const StInfoRightGroup = styled.div`
+  margin-left: auto;
+  max-width: 700px;
+  height: 50px;
+  & > p {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `
 
 const StTitleParagraph = styled.p`
@@ -194,17 +197,6 @@ const StTitleParagraph = styled.p`
   flex-grow: 1;
   & > p:nth-child(2) {
     padding-left: 60px;
-  }
-`
-
-const StTitleInfoGroup = styled(StVerticalGroup)`
-  width: 360px;
-  padding: 0 10px;
-  & > p {
-    font-size: 2rem;
-    font-weight: 400;
-    text-align: center;
-    padding: 5px 0;
   }
 `
 
@@ -271,15 +263,66 @@ const StTimer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
   }
 `
 
-const StEstimatedTime = styled(StVerticalGroup)`
-  margin-left: auto;
-  padding: 5px 20px;
-  & > p {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 400;
-    padding: 5px 0;
+const AnimFirst = keyframes`
+  0% {
+    transform: translateY(0px) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
   }
+  45% {
+    transform: translateY(0px) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
+    animation-timing-function: ease-in-out;
+  }
+  50% {
+    transform: translateY(-46px) rotate3d(1, 0, 0, 120deg);
+    opacity: 0;
+  }
+  95% {
+    transform: translateY(-46px) rotate3d(1, 0, 0, -120deg);
+    opacity: 0;
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translateY(-92px) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
+  }
+`
+
+const AnimSecond = keyframes`
+  0% {
+    transform: translateY(0px) rotate3d(1, 0, 0, -120deg);
+    opacity: 0;
+  }
+  45% {
+    transform: translateY(0px) rotate3d(1, 0, 0, -120deg);
+    opacity: 0;
+    animation-timing-function: ease-in-out;
+  }
+  50% {
+    transform: translateY(-46px) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
+  }
+  95% {
+    transform: translateY(-46px) rotate3d(1, 0, 0, 0deg);
+    opacity: 1;
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translateY(-92px) rotate3d(1, 0, 0, 120deg);
+    opacity: 0;
+  }
+`
+
+const AnimParagraphFirst = styled.p`
+  margin-left: auto;
+  width: 350px;
+  animation: 30s infinite ${AnimFirst};
+`
+
+const AnimParagraphSecond = styled.p`
+  max-width: 700px;
+  animation: 30s infinite ${AnimSecond};
+  text-align: center;
 `
 
 // #endregion styles
