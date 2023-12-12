@@ -182,7 +182,7 @@ const StInfoRightGroup = styled.div`
   & > p {
     text-align: center;
     font-size: 2rem;
-    font-weight: 400;
+    font-weight: 700;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -235,7 +235,7 @@ const StAssistContent = styled.div`
   p:nth-child(2) {
     font-weight: 700;
     font-size: 1.4rem;
-    padding: 5px;
+    padding: 5px 15px;
   }
   p:nth-child(2):empty {
     padding: 0;
@@ -320,6 +320,7 @@ const AnimParagraphFirst = styled.p`
 
 const AnimParagraphSecond = styled.p`
   max-width: 700px;
+  padding: 0 5px;
   animation: 30s infinite ${AnimSecond};
   text-align: center;
 `
