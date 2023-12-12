@@ -20,7 +20,7 @@ export const timerController = (nodecg: NodeCG) => {
   }
   let isRunningTimer: boolean = false
   let groupRunnersNum: number = 0
-  const DELAY: number = 50
+  const DELAY: number = 100
   const MAX_RUNNERS_NUM = 4
   const TIMER_INITIAL_VALUE: Timer = {
     startTime: 0,
