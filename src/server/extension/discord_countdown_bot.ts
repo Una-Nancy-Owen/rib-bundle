@@ -1,5 +1,5 @@
 import { NodeCG } from '../server'
-import { GatewayIntentBits, Events, Client, EmbedBuilder, ColorResolvable } from 'discord.js'
+import { GatewayIntentBits, Events, Client, EmbedBuilder, ColorResolvable, Message } from 'discord.js'
 import dotenv from 'dotenv'
 
 export const discordCountdownBot = (nodecg: NodeCG) => {
@@ -36,21 +36,17 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
     const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
     if (command == commandName) {
       const title = args.join('')
-      await message.channel.send({
-        embeds: [getImgEmbedMessage(blue, getCountdownText(title, 10), imageUrl)],
-      })
+      await sendImgEmbedMessage(message, blue, getCountdownText(title, 10), imageUrl)
       await sleep(5000)
-      await message.channel.send({ embeds: [getEmbedMessage(green, getCountdownText(title, 5))] })
+      await sendEmbedMessage(message, green, getCountdownText(title, 5))
       await sleep(2000)
-      await message.channel.send({ embeds: [getEmbedMessage(orange, getCountdownText(title, 3))] })
+      await sendEmbedMessage(message, orange, getCountdownText(title, 3))
       await sleep(1000)
-      await message.channel.send({ embeds: [getEmbedMessage(orange, getCountdownText(title, 2))] })
+      await sendEmbedMessage(message, orange, getCountdownText(title, 2))
       await sleep(1000)
-      await message.channel.send({ embeds: [getEmbedMessage(orange, getCountdownText(title, 1))] })
+      await sendEmbedMessage(message, orange, getCountdownText(title, 1))
       await sleep(1000)
-      await message.channel.send({
-        embeds: [getEmbedMessage(red, getCountdownText(title, 0))],
-      })
+      await sendEmbedMessage(message, red, getCountdownText(title, 0))
     }
   })
 
@@ -63,16 +59,25 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
     countdownBotRep.value = value
     isRunning = value
   })
-}
 
-const getImgEmbedMessage = (color: ColorResolvable, title: string, imageUrl: string): EmbedBuilder => {
-  const embed = new EmbedBuilder().setTitle(title).setColor(color).setImage(imageUrl).setTimestamp()
-  return embed
-}
+  const sendImgEmbedMessage = async (
+    message: Message<boolean>,
+    color: ColorResolvable,
+    title: string,
+    imageUrl: string
+  ): Promise<void> => {
+    if (isRunning) {
+      const embed = new EmbedBuilder().setTitle(title).setColor(color).setImage(imageUrl).setTimestamp()
+      await message.channel.send({ embeds: [embed] })
+    }
+  }
 
-const getEmbedMessage = (color: ColorResolvable, title: string): EmbedBuilder => {
-  const embed = new EmbedBuilder().setTitle(title).setColor(color).setTimestamp()
-  return embed
+  const sendEmbedMessage = async (message: Message<boolean>, color: ColorResolvable, title: string): Promise<void> => {
+    if (isRunning) {
+      const embed = new EmbedBuilder().setTitle(title).setColor(color).setTimestamp()
+      await message.channel.send({ embeds: [embed] })
+    }
+  }
 }
 
 const getCountdownText = (title: string, count: number) => {

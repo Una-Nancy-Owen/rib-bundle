@@ -269,7 +269,7 @@ const StAssistContent = styled.div`
   p:nth-child(2) {
     font-weight: 700;
     font-size: 1.4rem;
-    padding: 5px 20px;
+    padding: 5px 50px;
   }
   p:nth-child(2):empty {
     padding: 0;
