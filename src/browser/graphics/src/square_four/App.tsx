@@ -35,6 +35,7 @@ export default function App() {
   if (runnerGroup != null) {
     const title = runnerGroup.title.map((value, index) => <p key={`title${index.toString()}`}>{value}</p>)
     const commentator = runnerGroup.commentators.map((data, index) => <p key={`commentator${index}`}>{data.name}</p>)
+    const commentatorVisibility = 0 < runnerGroup.commentators.length
     const est = `予定タイム ${runnerGroup.estimatedTime}`
     const category = `${runnerGroup.category} / ${runnerGroup.platform}`
     return (
@@ -56,11 +57,11 @@ export default function App() {
                 <AnimParagraphFirst>{est}</AnimParagraphFirst>
               </StInfoGroup>
             </StGameInfo>
-            <StCommentatorContainer $isVisible={0 < runnerGroup.commentators.length}>
-              <p>{0 < runnerGroup.commentators.length ? '解説' : ''}</p>
+            <StCommentatorContainer $isVisible={commentatorVisibility}>
+              <p>{commentatorVisibility ? '解説' : ''}</p>
               <StVerticalGroup>{commentator}</StVerticalGroup>
             </StCommentatorContainer>
-            <StAssistContent>{assistContent}</StAssistContent>
+            <StAssistContent $fullHeight={!commentatorVisibility}>{assistContent}</StAssistContent>
           </StMainInfoContainer>
           <RunnerContainer index={2} isLeft={true} />
           <RunnerContainer index={3} isLeft={false} />
@@ -210,8 +211,8 @@ const StIcon = styled.img`
   max-height: 50px;
 `
 
-const StAssistContent = styled.div`
-  height: 290px;
+const StAssistContent = styled.div<{ $fullHeight: boolean }>`
+  height: ${(props) => (props.$fullHeight ? '372px' : '312px')};
   padding-top: 10px;
   display: flex;
   flex-direction: column;
@@ -231,7 +232,7 @@ const StAssistContent = styled.div`
   }
   & > img {
     max-width: 472px;
-    max-height: 248px;
+    max-height: ${(props) => (props.$fullHeight ? '330px' : '270px')};
     padding: 4px;
     margin: auto;
     object-fit: contain;

@@ -19,4 +19,5 @@ export interface MessageMap {
   toggleAutoRefreshSandBox: { data: boolean }
   toggleCountdownBot: { data: boolean }
   toggleSandboxReceiver: { data: boolean }
+  setSandboxInterval: { data: number }
 }

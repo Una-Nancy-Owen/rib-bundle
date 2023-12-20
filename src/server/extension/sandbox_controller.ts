@@ -18,7 +18,7 @@ export const sandboxController = (nodecg: NodeCG) => {
   let illustIndex: number = 0
   let isFirstTime: boolean = false
   let contentType: ContentType = 'highlight'
-  const DELAY: number = 10000
+  let delay: number = 10000
   const ILLUST_MAX_COUNT = 5
   let highlightContent: AssistContent[][] = []
   let illustContent: AssistContent[] = []
@@ -45,7 +45,7 @@ export const sandboxController = (nodecg: NodeCG) => {
     if (!intervalId) {
       intervalId = setInterval(() => {
         changeContent()
-      }, DELAY)
+      }, delay)
     }
   }
 
@@ -172,7 +172,7 @@ export const sandboxController = (nodecg: NodeCG) => {
     if (autoRefreshSandbox) {
       setTimeout(() => {
         start()
-      }, DELAY)
+      }, delay)
     }
   })
 
@@ -183,6 +183,14 @@ export const sandboxController = (nodecg: NodeCG) => {
       start()
     } else {
       stop()
+    }
+  })
+
+  nodecg.listenFor('setSandboxInterval', (value) => {
+    if (autoRefreshSandbox) {
+      delay = value
+      stop()
+      start()
     }
   })
 

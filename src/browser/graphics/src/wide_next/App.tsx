@@ -1,30 +1,30 @@
-import { StHorizontalGroup, StSquareFrame, StVerticalGroup } from '@ui/style'
+import { StHorizontalGroup, StWideFrame, StVerticalGroup } from '@ui/style'
 import { keyframes, styled } from 'styled-components'
 import useRunnerGroup from '@hooks/useRunnerGroup'
 import useAssistContent from '@hooks/useAssistContent'
-import useTimerSplitParagraph from '@hooks/useTimerSplitParagraph'
 import useLogo from '@hooks/useLogo'
 
 export default function App() {
   const runnerGroup = useRunnerGroup()
-  const timerSplitParagraph = useTimerSplitParagraph(2)
   const assistContent = useAssistContent()
   const logo = useLogo()
+
   if (runnerGroup != null) {
     const title = runnerGroup.title.join('')
+    const runner = runnerGroup.runners.map((data) => data.name).join(' ')
     const commentator = runnerGroup.commentators.map((data, index) => <p key={`commentator${index}`}>{data.name}</p>)
-    const hasCommentator = 0 < runnerGroup.commentators.length
+    const commentatorVisibility = 0 < runnerGroup.commentators.length
     const est = `予定タイム ${runnerGroup.estimatedTime}`
     const category = `${runnerGroup.category}`
     return (
       <StWrapper>
         <StUpperContainer>
-          <StSquareFrame />
+          <StWideFrame />
           <StUpperVerticalGroup>
             <StLogo>{logo}</StLogo>
             <StRightContainer>
-              <StCommentatorContainer $isVisible={0 < runnerGroup.commentators.length}>
-                <p>{hasCommentator ? '解説' : ''}</p>
+              <StCommentatorContainer $isVisible={commentatorVisibility}>
+                <p>{commentatorVisibility ? '解説' : ''}</p>
                 {commentator}
               </StCommentatorContainer>
               <StAssistContent>{assistContent}</StAssistContent>
@@ -33,21 +33,23 @@ export default function App() {
         </StUpperContainer>
         <StLeftContainer>
           <StBottomContainer>
-            <StIcon src={runnerGroup.runners[0].icon} />
             <StBottomInfoContainer>
               <StBottomLeft>
-                <StTitleParagraph>
-                  {title} / {runnerGroup.platform}
-                </StTitleParagraph>
-                <StNameParagraph>{runnerGroup.runners[0].name}</StNameParagraph>
+                <StTitleGroup>
+                  <StNextParagraph>{'Next >>'}</StNextParagraph>
+                  <StTitleParagraph>
+                    {title} / {runnerGroup.platform}
+                  </StTitleParagraph>
+                </StTitleGroup>
+                <StNameParagraph>走者 : {runner}</StNameParagraph>
               </StBottomLeft>
               <StBottomRight>
-                <StTimer>{timerSplitParagraph![0]}</StTimer>
-                <StInfoRightGroup>
+                <StTimer />
+                <StVerticalGroupRA>
                   <AnimParagraphFirst>{est}</AnimParagraphFirst>
                   <AnimParagraphSecond>{category}</AnimParagraphSecond>
                   <AnimParagraphFirst>{est}</AnimParagraphFirst>
-                </StInfoRightGroup>
+                </StVerticalGroupRA>
               </StBottomRight>
             </StBottomInfoContainer>
           </StBottomContainer>
@@ -66,8 +68,8 @@ const StWrapper = styled(StVerticalGroup)`
   height: 1080px;
   background-color: black;
   justify-content: center;
-  mask-image: url('mask_square_one.png');
-  -webkit-mask-image: url('mask_square_one.png');
+  mask-image: url('mask_wide_one.png');
+  -webkit-mask-image: url('mask_wide_one.png');
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   mask-position: 0% 0%;
@@ -92,7 +94,8 @@ const StUpperContainer = styled(StHorizontalGroup)`
 `
 
 const StRightContainer = styled(StVerticalGroup)`
-  margin: 10px 10px 5px 0px;
+  height: 701px;
+  margin: 10px 10px 5px 0;
   border: 4px solid white;
   border-radius: 8px;
   padding: 20px 0;
@@ -129,43 +132,26 @@ const StLogo = styled.div`
   }
 `
 
-const StIcon = styled.img`
-  max-height: 100%;
-  padding: 0 6px 6px 6px;
-  object-fit: contain;
-`
-
 const StBottomInfoContainer = styled(StHorizontalGroup)`
   height: 184px;
   flex-grow: 1;
   padding: 20px;
-  margin: 10px 10px 10px 30px;
+  margin: 10px;
   position: relative;
   overflow: visible;
   border: 4px solid #fff;
   border-radius: 8px;
-  &:before {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: -40px;
-    border-width: 20px;
-    border-style: solid;
-    border-color: transparent rgb(255, 255, 255) transparent transparent;
-    border-image: initial;
-    z-index: 1;
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: -34px;
-    border-width: 20px;
-    border-style: solid;
-    border-color: transparent #000 transparent transparent;
-    border-image: initial;
-    z-index: 2;
-  }
+`
+
+const StNextParagraph = styled.p`
+  padding: 0 10px;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgb(120, 120, 120);
+`
+
+const StTitleGroup = styled(StHorizontalGroup)`
+  justify-content: flex-start;
 `
 
 const StTitleParagraph = styled.p`
@@ -174,7 +160,7 @@ const StTitleParagraph = styled.p`
 `
 
 const StNameParagraph = styled.p`
-  padding-left: 40px;
+  padding-left: 220px;
   font-size: 2.2rem;
   font-weight: 900;
   text-align: left;
@@ -222,7 +208,7 @@ const StAssistContent = styled.div`
 
 const StTimer = styled(StHorizontalGroup)`
   width: 350px;
-  background-color: rgb(65 87 145);
+  height: 52px;
   & > p {
     font-size: 2.4rem;
     font-weight: 900;
@@ -231,7 +217,7 @@ const StTimer = styled(StHorizontalGroup)`
   }
 `
 
-const StInfoRightGroup = styled.div`
+const StVerticalGroupRA = styled.div`
   margin-left: auto;
   max-width: 700px;
   height: 50px;
