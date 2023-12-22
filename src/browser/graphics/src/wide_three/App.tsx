@@ -239,12 +239,16 @@ const StAssistContent = styled.div<{ $fullHeight: boolean }>`
     font-size: 1.4rem;
     font-weight: 900;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: clip;
     color: rgb(255, 255, 0);
   }
   p:nth-child(2) {
     font-weight: 700;
     font-size: 1.4rem;
-    padding: 5px 20px;
+    padding: 5px 40px;
+    max-height: ${(props) => (props.$fullHeight ? '330px' : '270px')};
+    overflow-y: hidden;
   }
   p:nth-child(2):empty {
     padding: 0;

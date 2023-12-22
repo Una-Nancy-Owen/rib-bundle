@@ -180,6 +180,15 @@ export const sandboxController = (nodecg: NodeCG) => {
     autoRefreshSandboxRep.value = value
     autoRefreshSandbox = value
     if (autoRefreshSandbox) {
+      const currentIndex = nodecg.readReplicant('groupIndex')
+      contentType = 'highlight'
+      if (currentIndex < highlightContent.length) {
+        groupIndex = currentIndex
+        if (0 < highlightContent.length && 0 < illustContent.length && intervalId) {
+          highlightIndex = 0
+          updateContent(highlightContent[groupIndex][highlightIndex])
+        }
+      }
       start()
     } else {
       stop()

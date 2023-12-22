@@ -203,13 +203,16 @@ const StAssistContent = styled.div`
     font-weight: 900;
     margin-bottom: 10px;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: clip;
     color: rgb(255, 255, 0);
   }
   p:nth-child(2) {
     font-weight: 700;
     font-size: 1.6rem;
     height: 446px;
-    padding: 4px 10px;
+    padding: 4px 25px;
+    overflow-y: hidden;
   }
   p:nth-child(2):empty {
     padding: 0;
