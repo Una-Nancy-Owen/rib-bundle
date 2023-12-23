@@ -211,6 +211,7 @@ const StSpeaker = styled(StHorizontalGroup)`
 const StNameContainer = styled(StHorizontalGroup)`
   font-size: 1.9rem;
   font-weight: 900;
+  margin-left: 40px;
   align-items: center;
   text-align: left;
 `
@@ -255,6 +256,7 @@ const StAssistContent = styled.div`
 const StTimer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
   width: 290px;
   height: 46px;
+  margin-right: 100px;
   background-color: rgb(65 87 145);
   opacity: ${(props) => (props.$isVisible ? '1' : '0')};
   font-size: 1.9rem;
