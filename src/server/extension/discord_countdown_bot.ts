@@ -31,7 +31,6 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
 
   client.on('messageCreate', async (message) => {
     if (!isRunning) return
-    if (message.author.bot) return
     if (!message.content.startsWith(prefix)) return
     const [command, ...args] = message.content.slice(prefix.length).split(/\s+/)
     if (command == commandName) {
