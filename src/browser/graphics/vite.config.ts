@@ -25,6 +25,7 @@ export default defineConfig({
         wide_four: resolve(__dirname, 'wide_four.html'),
         wide_next: resolve(__dirname, 'wide_next.html'),
         standby: resolve(__dirname, 'standby.html'),
+        no_timer: resolve(__dirname, 'no_timer.html'),
       },
     },
   },

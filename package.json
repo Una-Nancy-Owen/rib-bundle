@@ -82,6 +82,11 @@
         "file": "standby.html",
         "width": 1920,
         "height": 1080
+      },
+      {
+        "file": "no_timer.html",
+        "width": 1920,
+        "height": 1080
       }
     ]
   },
@@ -126,7 +131,7 @@
     "prettier": "^3.0.3",
     "ts-nodecg": "^0.3.1",
     "typescript": "^5.2.2",
-    "vite": "^4.4.11",
+    "vite": "^4.5.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
