@@ -225,7 +225,7 @@ const StAssistContent = styled.div`
 
 const StTimer = styled(StHorizontalGroup)`
   width: 350px;
-  background-color: rgb(65 87 145);
+  height: 52px;
   & > p {
     font-size: 2.4rem;
     font-weight: 900;
