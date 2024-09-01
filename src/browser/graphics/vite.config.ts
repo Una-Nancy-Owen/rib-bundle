@@ -14,6 +14,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         square_one: resolve(__dirname, 'square_one.html'),
+        square_one_no_timer: resolve(__dirname, 'square_one_no_timer.html'),
         square_one_self_timer: resolve(__dirname, 'square_one_self_timer.html'),
         square_two: resolve(__dirname, 'square_two.html'),
         square_three: resolve(__dirname, 'square_three.html'),
