@@ -8,7 +8,7 @@ ARG NODE_ENV=production
 WORKDIR /nodecg
 
 RUN npm install -g nodecg-cli \
-	&& nodecg setup
+	&& nodecg setup 2.2.1
 
 FROM node:18-slim AS builder
 
