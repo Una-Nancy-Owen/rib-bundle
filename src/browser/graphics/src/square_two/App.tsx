@@ -3,7 +3,7 @@ import useLogo from '@hooks/useLogo'
 import useRunnerGroup from '@hooks/useRunnerGroup'
 import useSpeakerRef from '@hooks/useSpeakerRef'
 import useTimerSplitParagraph from '@hooks/useTimerSplitParagraph'
-import { StHorizontalGroup, StSquareFrame, StVerticalGroup } from '@ui/style'
+import { StHorizontalGroup, StSquareFrame, StVerticalGroup, StWrapperBase } from '@ui/style'
 import { memo } from 'react'
 import { keyframes, styled } from 'styled-components'
 
@@ -81,17 +81,10 @@ export default function App() {
 
 // #region styles
 
-const StWrapper = styled(StVerticalGroup)`
-  width: 1920px;
-  height: 1080px;
-  font-size: 2.2rem;
-  background-color: black;
+const StWrapper = styled(StWrapperBase)`
   mask-image: url('mask_square_two.png');
   -webkit-mask-image: url('mask_square_two.png');
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 0% 0%;
-  -webkit-mask-position: 0% 0%;
+  justify-content: flex-end;
 `
 
 const StUpperHorizontalGroup = styled(StHorizontalGroup)`

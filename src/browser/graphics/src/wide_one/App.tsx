@@ -1,4 +1,11 @@
-import { StHorizontalGroup, StWideFrame, StVerticalGroup } from '@ui/style'
+import {
+  StHorizontalGroup,
+  StWideFrame,
+  StVerticalGroup,
+  StOneBottomLeft,
+  StOneTitleParagraph,
+  StWrapperBase,
+} from '@ui/style'
 import { keyframes, styled } from 'styled-components'
 import useRunnerGroup from '@hooks/useRunnerGroup'
 import useAssistContent from '@hooks/useAssistContent'
@@ -36,12 +43,12 @@ export default function App() {
           <StBottomContainer>
             <StIcon src={runnerGroup.runners[0].icon} />
             <StBottomInfoContainer>
-              <StBottomLeft>
-                <StTitleParagraph>
+              <StOneBottomLeft>
+                <StOneTitleParagraph>
                   {title} / {runnerGroup.platform}
-                </StTitleParagraph>
+                </StOneTitleParagraph>
                 <StNameParagraph>{runnerGroup.runners[0].name}</StNameParagraph>
-              </StBottomLeft>
+              </StOneBottomLeft>
               <StBottomRight>
                 <StTimer>{timerSplitParagraph![0]}</StTimer>
                 <StVerticalGroupRA>
@@ -62,17 +69,9 @@ export default function App() {
 
 // #region styles
 
-const StWrapper = styled(StVerticalGroup)`
-  width: 1920px;
-  height: 1080px;
-  background-color: black;
-  justify-content: center;
+const StWrapper = styled(StWrapperBase)`
   mask-image: url('mask_wide_one.png');
   -webkit-mask-image: url('mask_wide_one.png');
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-position: 0% 0%;
-  -webkit-mask-position: 0% 0%;
 `
 
 const StUpperVerticalGroup = styled(StVerticalGroup)`
@@ -107,11 +106,6 @@ const StBottomContainer = styled(StHorizontalGroup)`
   width: 100%;
   height: 204px;
   align-items: center;
-`
-
-const StBottomLeft = styled(StVerticalGroup)`
-  flex-grow: 1;
-  justify-content: space-around;
 `
 
 const StBottomRight = styled(StVerticalGroup)`
@@ -168,11 +162,6 @@ const StBottomInfoContainer = styled(StHorizontalGroup)`
     border-image: initial;
     z-index: 2;
   }
-`
-
-const StTitleParagraph = styled.p`
-  font-size: 3rem;
-  font-weight: 900;
 `
 
 const StNameParagraph = styled.p`
