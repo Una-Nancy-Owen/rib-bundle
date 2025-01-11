@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "sourceMap": true, // デバッグ用のmapファイルを出力
     "strict": true, // コードをより厳密にチェックする
     "esModuleInterop": true, // モジュールのインポートの互換性

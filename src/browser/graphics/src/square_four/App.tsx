@@ -142,7 +142,7 @@ const StSpeaker = styled(StHorizontalGroup)`
   }
 `
 
-const StCommentatorContainer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
+const StCommentatorContainer = styled(StHorizontalGroup) <{ $isVisible: boolean }>`
   align-items: center;
   height: 60px;
   white-space: nowrap;
@@ -172,7 +172,7 @@ const StTitle = styled(StVerticalGroup)`
   text-align: center;
 `
 
-const StRunnerInfoContainer = styled(StVerticalGroup)<{ $isLeft: boolean }>`
+const StRunnerInfoContainer = styled(StVerticalGroup) <{ $isLeft: boolean }>`
   align-items: center;
   justify-content: space-between;
   padding: 2px 0px;
@@ -183,7 +183,7 @@ const StRunnerInfoContainer = styled(StVerticalGroup)<{ $isLeft: boolean }>`
   }
 `
 
-const StNameContainer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
+const StNameContainer = styled(StHorizontalGroup) <{ $isVisible: boolean }>`
   width: 100%;
   height: 50px;
   font-size: 1.4rem;
@@ -233,10 +233,11 @@ const StAssistContent = styled.div<{ $fullHeight: boolean }>`
     padding: 4px;
     margin: auto;
     object-fit: contain;
+    flex: auto;
   }
 `
 
-const StTimer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
+const StTimer = styled(StHorizontalGroup) <{ $isVisible: boolean }>`
   width: 310px;
   height: 37px;
   align-items: center;

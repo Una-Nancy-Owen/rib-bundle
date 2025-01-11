@@ -158,7 +158,7 @@ const StNameParagraph = styled.p`
   text-align: left;
 `
 
-const StCommentatorContainer = styled(StVerticalGroup)<{ $isVisible: boolean }>`
+const StCommentatorContainer = styled(StVerticalGroup) <{ $isVisible: boolean }>`
   font-size: 1.8rem;
   font-weight: 900;
   text-align: center;
@@ -198,8 +198,9 @@ const StAssistContent = styled.div`
   }
   & > img {
     max-width: 100%;
-    height: 446px;
+    max-height: 446px;
     object-fit: contain;
+    flex: auto;
   }
 `
 

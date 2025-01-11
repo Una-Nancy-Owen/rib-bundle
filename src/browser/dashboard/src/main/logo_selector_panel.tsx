@@ -56,7 +56,7 @@ export const LogoSelectorPanel = memo(() => {
   }, [])
 
   if (options != null && logoImg != null) {
-    const hoge = options.map((option, index) => (
+    const option = options.map((option, index) => (
       <StOption key={`options${index}`} value={option.value}>
         {option.label}
       </StOption>
@@ -66,7 +66,7 @@ export const LogoSelectorPanel = memo(() => {
         <h2>大会ロゴ</h2>
         <StLogoImg src={logoImg.url} />
         <StSelect ref={selectRef} onChange={selectHandler}>
-          {hoge}
+          {option}
         </StSelect>
       </StLogoSelector>
     )

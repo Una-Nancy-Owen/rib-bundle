@@ -121,7 +121,7 @@ const StInfoMain = styled(StHorizontalGroup)`
   align-items: center;
 `
 
-const StCommentatorContainer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
+const StCommentatorContainer = styled(StHorizontalGroup) <{ $isVisible: boolean }>`
   display: ${(props) => (props.$isVisible ? 'flex' : 'none')};
   justify-content: flex-end;
   align-items: center;
@@ -161,7 +161,7 @@ const StLogo = styled.div`
   }
 `
 
-const StBottomRightGroup = styled(StHorizontalGroup)<{ $fullHeight: boolean }>`
+const StBottomRightGroup = styled(StHorizontalGroup) <{ $fullHeight: boolean }>`
   height: ${(props) => (props.$fullHeight ? '229px' : '209px')};
   flex-grow: 1;
   margin: 10px;
@@ -244,10 +244,11 @@ const StAssistContent = styled.div`
     max-height: 258px;
     margin: auto;
     object-fit: contain;
+    flex: auto;
   }
 `
 
-const StTimer = styled(StHorizontalGroup)<{ $isVisible: boolean }>`
+const StTimer = styled(StHorizontalGroup) <{ $isVisible: boolean }>`
   width: 290px;
   height: 46px;
   margin-right: 100px;

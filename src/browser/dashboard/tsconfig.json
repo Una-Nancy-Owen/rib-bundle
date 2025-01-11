@@ -9,7 +9,8 @@
     "paths": {
       "*": ["../../@types/*"],
       "@ui/*": ["src/ui/*"],
-      "@const/*": ["../../constants/*"]
+      "@const/*": ["../../constants/*"],
+      "@hooks/*": ["../hooks/*"]
     },
 
     /* Bundler mode */

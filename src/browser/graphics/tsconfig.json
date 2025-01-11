@@ -11,7 +11,9 @@
       "@props/*": ["src/props/*"],
       "@ui/*": ["src/ui/*"],
       "@util/*": ["src/util/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["../hooks/*"],
+      "@base/*": ["src/base/*"],
+      "@components/*": ["src/components/*"]
     },
 
     /* Bundler mode */

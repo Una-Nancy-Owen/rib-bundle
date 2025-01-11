@@ -18,6 +18,7 @@ export interface MessageMap {
   overrideSandbox: { data: AssistContent }
   toggleAutoRefreshSandBox: { data: boolean }
   toggleCountdownBot: { data: boolean }
+  startCountdownAndTimer: {}
   toggleSandboxReceiver: { data: boolean }
   setSandboxInterval: { data: number }
 }

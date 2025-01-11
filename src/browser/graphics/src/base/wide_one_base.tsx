@@ -1,30 +1,40 @@
-import { StHorizontalGroup, StSquareFrame, StVerticalGroup, StWrapperBase } from '@ui/style'
-import { keyframes, styled } from 'styled-components'
+import {
+  StHorizontalGroup,
+  StWideFrame,
+  StVerticalGroup,
+  StOneBottomLeft,
+  StOneTitleParagraph,
+  StWrapperBase,
+} from '@ui/style'
+import { styled } from 'styled-components'
 import useRunnerGroup from '@hooks/useRunnerGroup'
 import useAssistContent from '@hooks/useAssistContent'
+import useTimerSplitParagraph from '@hooks/useTimerSplitParagraph'
 import useLogo from '@hooks/useLogo'
+import { RollParagraph } from '@components/RollParagraph'
 
-export default function App() {
+export const WideOneBase = ((props: { mask_image_filename: string, show_timer: boolean }) => {
   const runnerGroup = useRunnerGroup()
+  const timerSplitParagraph = useTimerSplitParagraph(2)
   const assistContent = useAssistContent()
   const logo = useLogo()
 
   if (runnerGroup != null) {
     const title = runnerGroup.title.join('')
-    const runner = runnerGroup.runners.map((data) => data.name).join(' ')
     const commentator = runnerGroup.commentators.map((data, index) => <p key={`commentator${index}`}>{data.name}</p>)
-    const commentatorVisibility = 0 < runnerGroup.commentators.length
+    const hasCommentator = 0 < runnerGroup.commentators.length
     const est = `予定タイム ${runnerGroup.estimatedTime}`
     const category = `${runnerGroup.category}`
+    const platform = runnerGroup.platform
     return (
-      <StWrapper>
+      <StWrapper $image_url={props.mask_image_filename}>
         <StUpperContainer>
-          <StSquareFrame />
+          <StWideFrame />
           <StUpperVerticalGroup>
             <StLogo>{logo}</StLogo>
             <StRightContainer>
-              <StCommentatorContainer $isVisible={commentatorVisibility}>
-                <p>{commentatorVisibility ? '解説' : ''}</p>
+              <StCommentatorContainer $isVisible={0 < runnerGroup.commentators.length}>
+                <p>{hasCommentator ? '解説' : ''}</p>
                 {commentator}
               </StCommentatorContainer>
               <StAssistContent>{assistContent}</StAssistContent>
@@ -33,22 +43,18 @@ export default function App() {
         </StUpperContainer>
         <StLeftContainer>
           <StBottomContainer>
+            <StIcon src={runnerGroup.runners[0].icon} />
             <StBottomInfoContainer>
-              <StBottomLeft>
-                <StTitleGroup>
-                  <StNextParagraph>{'Next >>'}</StNextParagraph>
-                  <StTitleParagraph>
-                    {title} / {runnerGroup.platform}
-                  </StTitleParagraph>
-                </StTitleGroup>
-                <StNameParagraph>走者 : {runner}</StNameParagraph>
-              </StBottomLeft>
+              <StOneBottomLeft>
+                <StOneTitleParagraph>
+                  {title}
+                </StOneTitleParagraph>
+                <StNameParagraph>{runnerGroup.runners[0].name}</StNameParagraph>
+              </StOneBottomLeft>
               <StBottomRight>
-                <StTimer />
+                <StTimer $showTimer={props.show_timer}>{(props.show_timer ? timerSplitParagraph![0] : null)}</StTimer>
                 <StInfoRightGroup>
-                  <AnimParagraphFirst>{est}</AnimParagraphFirst>
-                  <AnimParagraphSecond>{category}</AnimParagraphSecond>
-                  <AnimParagraphFirst>{est}</AnimParagraphFirst>
+                  <RollParagraph p1={est} p2={category} p3={platform} />
                 </StInfoRightGroup>
               </StBottomRight>
             </StBottomInfoContainer>
@@ -59,13 +65,13 @@ export default function App() {
   } else {
     return null
   }
-}
+})
 
 // #region styles
 
-const StWrapper = styled(StWrapperBase)`
-  mask-image: url('mask_square_one.png');
-  -webkit-mask-image: url('mask_square_one.png');
+const StWrapper = styled(StWrapperBase) <{ $image_url: string }>`
+  mask-image: url(${(props) => (props.$image_url)});
+  -webkit-mask-image: url(${(props) => (props.$image_url)});
 `
 
 const StUpperVerticalGroup = styled(StVerticalGroup)`
@@ -86,7 +92,8 @@ const StUpperContainer = styled(StHorizontalGroup)`
 `
 
 const StRightContainer = styled(StVerticalGroup)`
-  margin: 10px 10px 5px 0px;
+  height: 701px;
+  margin: 10px 10px 5px 0;
   border: 4px solid white;
   border-radius: 8px;
   padding: 20px 0;
@@ -99,11 +106,6 @@ const StBottomContainer = styled(StHorizontalGroup)`
   width: 100%;
   height: 204px;
   align-items: center;
-`
-
-const StBottomLeft = styled(StVerticalGroup)`
-  flex-grow: 1;
-  justify-content: space-around;
 `
 
 const StBottomRight = styled(StVerticalGroup)`
@@ -123,35 +125,47 @@ const StLogo = styled.div`
   }
 `
 
+const StIcon = styled.img`
+  max-height: 100%;
+  padding: 0 6px 6px 6px;
+  object-fit: contain;
+`
+
 const StBottomInfoContainer = styled(StHorizontalGroup)`
   height: 184px;
   flex-grow: 1;
   padding: 20px;
-  margin: 10px;
+  margin: 10px 10px 10px 30px;
   position: relative;
   overflow: visible;
   border: 4px solid #fff;
   border-radius: 8px;
-`
-
-const StNextParagraph = styled.p`
-  padding: 0 10px;
-  font-size: 3rem;
-  font-weight: 900;
-  color: rgb(120, 120, 120);
-`
-
-const StTitleGroup = styled(StHorizontalGroup)`
-  justify-content: flex-start;
-`
-
-const StTitleParagraph = styled.p`
-  font-size: 3rem;
-  font-weight: 900;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: -40px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: transparent rgb(255, 255, 255) transparent transparent;
+    border-image: initial;
+    z-index: 1;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: -34px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: transparent #000 transparent transparent;
+    border-image: initial;
+    z-index: 2;
+  }
 `
 
 const StNameParagraph = styled.p`
-  padding-left: 220px;
+  padding-left: 40px;
   font-size: 2.2rem;
   font-weight: 900;
   text-align: left;
@@ -185,7 +199,7 @@ const StAssistContent = styled.div`
   p:nth-child(2) {
     font-weight: 700;
     font-size: 1.6rem;
-    height: 446px;
+    max-height: 446px;
     padding: 4px 25px;
     overflow-y: hidden;
   }
@@ -201,9 +215,10 @@ const StAssistContent = styled.div`
   }
 `
 
-const StTimer = styled(StHorizontalGroup)`
+const StTimer = styled(StHorizontalGroup) <{ $showTimer: boolean }>`
   width: 350px;
   height: 52px;
+  background-color: ${(props) => (props.$showTimer ? 'rgb(65 87 145)' : 'transparent')};
   & > p {
     font-size: 2.4rem;
     font-weight: 900;
@@ -213,78 +228,24 @@ const StTimer = styled(StHorizontalGroup)`
 `
 
 const StInfoRightGroup = styled.div`
-  margin-left: auto;
   max-width: 700px;
   height: 50px;
   & > p {
+    margin-left: auto;
+    width:350px;
+    max-width:350px;
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: unset;
   }
-`
 
-const AnimFirst = keyframes`
-  0% {
-    transform: translateY(0px) rotate3d(1, 0, 0, 0deg);
-    opacity: 1;
+  & > p:nth-child(2){
+    width: auto;
+    max-width:700px;
+    
   }
-  45% {
-    transform: translateY(0px) rotate3d(1, 0, 0, 0deg);
-    opacity: 1;
-    animation-timing-function: ease-in-out;
-  }
-  50% {
-    transform: translateY(-46px) rotate3d(1, 0, 0, 120deg);
-    opacity: 0;
-  }
-  95% {
-    transform: translateY(-46px) rotate3d(1, 0, 0, -120deg);
-    opacity: 0;
-    animation-timing-function: ease-in-out;
-  }
-  100% {
-    transform: translateY(-92px) rotate3d(1, 0, 0, 0deg);
-    opacity: 1;
-  }
-`
-
-const AnimSecond = keyframes`
-  0% {
-    transform: translateY(0px) rotate3d(1, 0, 0, -120deg);
-    opacity: 0;
-  }
-  45% {
-    transform: translateY(0px) rotate3d(1, 0, 0, -120deg);
-    opacity: 0;
-    animation-timing-function: ease-in-out;
-  }
-  50% {
-    transform: translateY(-46px) rotate3d(1, 0, 0, 0deg);
-    opacity: 1;
-  }
-  95% {
-    transform: translateY(-46px) rotate3d(1, 0, 0, 0deg);
-    opacity: 1;
-    animation-timing-function: ease-in-out;
-  }
-  100% {
-    transform: translateY(-92px) rotate3d(1, 0, 0, 120deg);
-    opacity: 0;
-  }
-`
-
-const AnimParagraphFirst = styled.p`
-  margin-left: auto;
-  width: 350px;
-  animation: 30s infinite ${AnimFirst};
-`
-
-const AnimParagraphSecond = styled.p`
-  max-width: 700px;
-  animation: 30s infinite ${AnimSecond};
-  text-align: center;
 `
 
 // #endregion styles

@@ -1,5 +1,5 @@
-import { TimerGroup, RunnerGroup, SignalType, Speaker, TimerSignal, TimerState } from 'rib-bundle'
-import { RefObject, createRef, memo, useCallback, useEffect, useRef, useState } from 'react'
+import { RunnerGroup, SignalType, Speaker, TimerSignal, TimerState } from 'rib-bundle'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import {
   StHorizontalGroup,
   RoundButton,
@@ -10,6 +10,7 @@ import {
   ToggleSwitch,
 } from '@ui/style'
 import { colRed, colOrange, colBlue, colTurquoiseBlue, colGreen, colRoseRed, colSlateGrey } from '@ui/color'
+import useTimerSplitParagraph from '@hooks/useTimerSplitParagraph'
 import { HiSpeakerWave, HiSpeakerXMark } from 'react-icons/hi2'
 import { FaLock, FaUnlock } from 'react-icons/fa'
 import { styled } from 'styled-components'
@@ -34,49 +35,28 @@ export const TimerControlePanel = memo((props: { runnerGroup: RunnerGroup; timer
     RunnerTimerInfoInitValues,
     RunnerTimerInfoInitValues,
   ])
-  const paragraphRef = useRef<RefObject<HTMLParagraphElement>[]>([
-    createRef<HTMLParagraphElement>(),
-    createRef<HTMLParagraphElement>(),
-    createRef<HTMLParagraphElement>(),
-    createRef<HTMLParagraphElement>(),
-  ])
+  const timerSplitParagraph = useTimerSplitParagraph(4, 'rgb(143 95 76)', true)
   const [speaker, setSpeaker] = useState<Speaker>()
-  const [showMS, setShowMS] = useState<boolean>(false)
+  const [showMS, setShowMS] = useState<boolean>()
   const [lockButton, setLockButton] = useState<boolean>(true)
+  const [isRunningCountdownBot, setIsRunningCountdownBot] = useState<boolean>()
 
   useEffect(() => {
     nodecg.readReplicant('timerGroup', (value) => {
       setShowMS(value.showMS)
     })
-    nodecg.Replicant('timerGroup').on('change', (newValue) => {
-      refreshTimerRefine(newValue)
-    })
     nodecg.Replicant('speaker').on('change', (newValue) => {
       setSpeaker(newValue)
+    })
+    nodecg.Replicant('isRunningCountdownBot').on('change', (newValue) => {
+      if (newValue != null) {
+        setIsRunningCountdownBot(newValue)
+      }
     })
   }, [])
   useEffect(() => {
     setLockButton(true)
   }, [props.runnerGroup])
-
-  /**
-   * タイマー表示を更新する関数
-   */
-  const refreshTimerRefine = useCallback((timerGroup: TimerGroup) => {
-    if (timerGroup != null) {
-      timerGroup.timer.forEach((timer, index) => {
-        if (paragraphRef.current![index] != null) {
-          const currentTimeStr = timerGroup.showMS
-            ? `${timer.h}:${timer.m}:${timer.s}.${timer.ms}`
-            : `${timer.h}:${timer.m}:${timer.s}`
-          const prevTimeStr: string = paragraphRef.current![index].current!.innerText
-          if (currentTimeStr != prevTimeStr) {
-            paragraphRef.current![index].current!.innerText = currentTimeStr
-          }
-        }
-      })
-    }
-  }, [])
 
   /**
    * 全体のタイマーを操作したときにメッセージを送信する関数
@@ -88,6 +68,7 @@ export const TimerControlePanel = memo((props: { runnerGroup: RunnerGroup; timer
       index: 0,
     }
     nodecg.sendMessage('setTimerSignal', timerSignal)
+    setLockButton(true)
   }, [])
 
   const changeSpeaker = useCallback((index: number) => {
@@ -103,8 +84,11 @@ export const TimerControlePanel = memo((props: { runnerGroup: RunnerGroup; timer
     setLockButton(!lockButton)
   }, [lockButton])
 
-  if (paragraphRef.current != null) {
-  }
+  const startCountDown = useCallback(() => {
+    nodecg.sendMessage('startCountdownAndTimer')
+    setLockButton(true)
+  }, [])
+
   for (let i = 0; i < visibleRef.current.length; i++) {
     if (i < props.runnerGroup.runners.length) {
       visibleRef.current[i] = {
@@ -124,7 +108,7 @@ export const TimerControlePanel = memo((props: { runnerGroup: RunnerGroup; timer
         </StCircleButton>
         <StRunnerInfo>
           <p>{data.name}</p>
-          <StTimerParagraph ref={paragraphRef.current[i]} />
+          <StTimerParagraph>{timerSplitParagraph[i]}</StTimerParagraph>
         </StRunnerInfo>
       </StBottomGroup>
     </StHideableContainer>
@@ -152,6 +136,9 @@ export const TimerControlePanel = memo((props: { runnerGroup: RunnerGroup; timer
         </RoundButton>
         <RoundButton $color={colBlue} onClick={allSignal.bind(this, 'Reset')} disabled={lockButton}>
           ResetAll
+        </RoundButton>
+        <RoundButton $color={colTurquoiseBlue} onClick={startCountDown} disabled={props.timerState.startedEveryone || lockButton || !isRunningCountdownBot}>
+          BotStart
         </RoundButton>
         <RoundButton $color={lockButton ? colRoseRed : colSlateGrey} onClick={changeLockHandler}>
           {lockButton ? <FaLock /> : <FaUnlock />}
@@ -230,29 +217,34 @@ const StRunnerInfo = styled(StHorizontalGroup)`
   height: 36px;
   background-color: rgb(235, 163, 89);
   border-radius: 4px;
-  align-items: center;
   justify-content: center;
 
-  & > p {
-    width: 100%;
-    height: 36px;
-    font-size: 1.2rem;
-    padding: 4px 10px;
-    font-weight: 700;
+  & > p, & > div {
+    width: 50%;
+    padding: 0 10px;
   }
 
-  & > p:first-of-type {
+  & p {
+    height: 36px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding-top: 1px;
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  & > div {
+    text-align: left;
+    justify-content: left;
+  }
 `
 
-const StTimerParagraph = styled.p`
+const StTimerParagraph = styled(StHorizontalGroup)`
   font-family: 'Noto Sans Mono';
 `
 
-const StHideableContainer = styled(StVerticalGroup)<{ $isVisible: boolean }>`
+const StHideableContainer = styled(StVerticalGroup) <{ $isVisible: boolean }>`
   margin: 5px;
   display: ${(props) => (props.$isVisible ? 'flex' : 'none')};
   background-color: rgb(247 200 113);
