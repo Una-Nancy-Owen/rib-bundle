@@ -36,13 +36,13 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
     if (!isRunning) return
     if (!message.content.startsWith(PREFIX)) return
     const [command, ...args] = message.content.slice(PREFIX.length).split(/\s+/)
+    const channelID = message.channelId
     if (command == COMMAND_NAME) {
-      const title = args.join('')
-      const channelID = message.channelId
-      if (title.length == 0) {
-        await countdown(channelID, currentTitle)
-      } else {
+      if (0 < args.length) {
+        const title = args.join('')
         await countdown(channelID, title)
+      } else {
+        await countdown(channelID, currentTitle)
       }
     }
   })
@@ -50,7 +50,6 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
   nodecg.listenFor('toggleCountdownBot', (value) => {
     if (value) {
       client.login(process.env.DISCORD_COUNTDOWN_TOKEN)
-      currentTitle = nodecg.readReplicant('currentRunnerGroup').title[0]
     } else {
       client.destroy()
     }
@@ -70,7 +69,11 @@ export const discordCountdownBot = (nodecg: NodeCG) => {
   })
 
   nodecg.Replicant('currentRunnerGroup').on('change', (newValue) => {
-    currentTitle = newValue.title[0]
+    if (newValue) {
+      currentTitle = newValue.title[0]
+    } else {
+      currentTitle = ''
+    }
   })
 
   const countdown = async (channelID: string, title: string) => {
