@@ -4,8 +4,8 @@ import { ColorStyle } from './color'
 export const Button = styled.button`
   background-color: rgb(109, 151, 201);
   color: rgb(255, 255, 255);
-  padding: 5px 14px;
-  margin: 6px 10px;
+  padding: 0 14px;
+  margin: 4px 7px;
   font-size: 1rem;
   font-weight: 700;
   border: none;
@@ -14,6 +14,7 @@ export const Button = styled.button`
   overflow: hidden;
   max-width: 250px;
   min-height: 38px;
+  max-height: 38px;
   &:hover {
     cursor: pointer;
     background-color: rgb(153, 199, 255);
@@ -64,7 +65,7 @@ export const SquareButton = styled(Button)<{ $color: ColorStyle }>`
 export const ToggleLabel = styled.label`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 4px;
   padding: 5px;
   justify-content: space-between;
   cursor: pointer;

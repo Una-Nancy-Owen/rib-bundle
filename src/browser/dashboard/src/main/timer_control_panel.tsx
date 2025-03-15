@@ -137,14 +137,14 @@ export const TimerControlePanel = memo((props: { runnerGroup: RunnerGroup; timer
         <RoundButton $color={colBlue} onClick={allSignal.bind(this, 'Reset')} disabled={lockButton}>
           ResetAll
         </RoundButton>
-        <RoundButton $color={colTurquoiseBlue} onClick={startCountDown} disabled={props.timerState.startedEveryone || lockButton || !isRunningCountdownBot}>
+        <SquareButton $color={colTurquoiseBlue} onClick={startCountDown} disabled={props.timerState.startedEveryone || lockButton || !isRunningCountdownBot}>
           BotStart
-        </RoundButton>
+        </SquareButton>
         <RoundButton $color={lockButton ? colRoseRed : colSlateGrey} onClick={changeLockHandler}>
           {lockButton ? <FaLock /> : <FaUnlock />}
         </RoundButton>
         <ToggleLabel>
-          <span>ミリ秒を表示</span>
+          <span>ミリ秒</span>
           <ToggleInput checked={showMS} type='checkbox' onChange={changeMSVisibility} />
           <ToggleSwitch />
         </ToggleLabel>
