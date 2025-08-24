@@ -232,7 +232,7 @@ const StLogo = styled.div`
 const StBottomRightGroup = styled(StHorizontalGroup) <{ $fullHeight: boolean }>`
   height: ${(props) => (props.$fullHeight ? '229px' : '229px')};
   flex-grow: 1;
-  width: 993.5px;
+  width: 1321.5px;
   margin: 10px;
   border: 4px solid #fff;
   border-radius: 8px;
