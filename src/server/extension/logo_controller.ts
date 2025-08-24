@@ -14,9 +14,15 @@ export const logoController = (nodecg: NodeCG) => {
       if (result.complete) {
         rawJsonToLogoArray(result.body as GoogleSheetsRAWJson).then((data) => {
           if (0 < data.length) {
+            let nextLogoIndex = logoIndexRep.value
             logoArrayRep.value = data
-            logoIndexRep.value = 0
-            logoRep.value = copyLogoImg(data[0])
+            if (nextLogoIndex != 0) {
+              if (data.length <= nextLogoIndex) {
+                nextLogoIndex = 0
+              }
+            }
+            logoRep.value = copyLogoImg(data[nextLogoIndex])
+            logoIndexRep.value = nextLogoIndex
           }
         })
       }

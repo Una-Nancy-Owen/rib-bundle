@@ -39,7 +39,17 @@
         "height": 1080
       },
       {
+        "file": "square_one_cam.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "square_two.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "square_two_cam.html",
         "width": 1920,
         "height": 1080
       },
@@ -79,7 +89,17 @@
         "height": 1080
       },
       {
+        "file": "wide_one_cam.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "wide_two.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "wide_two_cam.html",
         "width": 1920,
         "height": 1080
       },

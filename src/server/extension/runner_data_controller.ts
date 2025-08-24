@@ -8,8 +8,10 @@ export const runnerDataController = (nodecg: NodeCG) => {
   const runnerGroupArrayRep = nodecg.Replicant('runnerGroupArray')
   const currentRunnerGroupRep = nodecg.Replicant('currentRunnerGroup')
   const currentGroupIndexRep = nodecg.Replicant('groupIndex')
+  currentGroupIndexRep.value = 0
   const nextRunnerGroupRep = nodecg.Replicant('nextRunnerGroup')
   const nextGroupIndexRep = nodecg.Replicant('nextGroupIndex')
+  nextGroupIndexRep.value = 0
 
   const setCurrentRunnerGroupIndex = (index: number) => {
     if (runnerGroupArrayRep.value != null) {
@@ -33,14 +35,31 @@ export const runnerDataController = (nodecg: NodeCG) => {
         const runnerGroupArray = runnerDataArrayToRunnersGroupArray(dataArray)
         if (runnerGroupArray != null) {
           if (0 < runnerGroupArray.length) {
+            let currentIndex = currentGroupIndexRep.value!
             runnerGroupArrayRep.value = runnerGroupArray
-            currentRunnerGroupRep.value = JSON.parse(JSON.stringify(runnerGroupArray[0]))
-            currentGroupIndexRep.value = 0
+            if (runnerGroupArray.length <= currentIndex) {
+              currentIndex = 0
+            }
+            currentRunnerGroupRep.value = JSON.parse(JSON.stringify(runnerGroupArray[currentIndex]))
+            currentGroupIndexRep.value = currentIndex
             if (1 < runnerGroupArray.length) {
-              nextGroupIndexRep.value = 1
-              nextRunnerGroupRep.value = JSON.parse(JSON.stringify(runnerGroupArray[1]))
+              let nextIndex = nextGroupIndexRep.value!
+              if (currentIndex == nextIndex) {
+                if (nextIndex + 1 < runnerGroupArray.length) {
+                  nextGroupIndexRep.value = nextIndex + 1
+                  nextRunnerGroupRep.value = JSON.parse(JSON.stringify(runnerGroupArray[nextIndex]))
+                }
+              } else {
+                if (nextIndex < runnerGroupArray.length) {
+                  nextRunnerGroupRep.value = JSON.parse(JSON.stringify(runnerGroupArray[nextIndex]))
+                } else {
+                  nextGroupIndexRep.value = runnerGroupArray.length
+                  nextRunnerGroupRep.value = undefined
+                }
+              }
             } else {
-              nextGroupIndexRep.value = 0
+              nextGroupIndexRep.value = runnerGroupArray.length
+              nextRunnerGroupRep.value = undefined
             }
             nodecg.log.info('runnerGroupArray replicant is changed')
           } else {

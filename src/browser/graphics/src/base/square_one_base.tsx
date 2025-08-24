@@ -13,7 +13,7 @@ import useTimerSplitParagraph from '@hooks/useTimerSplitParagraph'
 import { RollParagraph } from '@components/RollParagraph'
 import useLogo from '@hooks/useLogo'
 
-export const SquareOneBase = ((props: { mask_image_filename: string, show_timer: boolean }) => {
+export const SquareOneBase = ((props: { mask_image_filename: string, show_timer: boolean, camera: boolean }) => {
   const runnerGroup = useRunnerGroup()
   const timerSplitParagraph = useTimerSplitParagraph(1)
   const assistContent = useAssistContent()
@@ -27,42 +27,88 @@ export const SquareOneBase = ((props: { mask_image_filename: string, show_timer:
     const category = `${runnerGroup.category}`
     const platform = runnerGroup.platform
 
-    return (
-      <StWrapper $image_url={props.mask_image_filename}>
-        <StUpperContainer>
-          <StSquareFrame />
-          <StUpperVerticalGroup>
-            <StLogo>{logo}</StLogo>
-            <StRightContainer>
-              <StCommentatorContainer $isVisible={0 < runnerGroup.commentators.length}>
-                <p>{hasCommentator ? '解説' : ''}</p>
-                {commentator}
-              </StCommentatorContainer>
-              <StAssistContent>{assistContent}</StAssistContent>
-            </StRightContainer>
-          </StUpperVerticalGroup>
-        </StUpperContainer>
-        <StLeftContainer>
-          <StBottomContainer>
-            <StIcon src={runnerGroup.runners[0].icon} />
-            <StBottomInfoContainer>
-              <StOneBottomLeft>
-                <StOneTitleParagraph>
-                  {title}
-                </StOneTitleParagraph>
-                <StNameParagraph>{runnerGroup.runners[0].name}</StNameParagraph>
-              </StOneBottomLeft>
-              <StBottomRight>
-                <StTimer $showTimer={props.show_timer}>{(props.show_timer ? timerSplitParagraph![0] : null)}</StTimer>
-                <StInfoRightGroup>
-                  <RollParagraph p1={est} p2={category} p3={platform} />
-                </StInfoRightGroup>
-              </StBottomRight>
-            </StBottomInfoContainer>
-          </StBottomContainer>
-        </StLeftContainer>
-      </StWrapper>
-    )
+    if (props.camera) {
+      return (
+        <StWrapper $image_url={props.mask_image_filename}>
+          <StUpperContainer>
+            <StSquareFrame />
+            <StUpperVerticalGroup>
+              <StLogo>{logo}</StLogo>
+              <StRightCameraContainer>
+                <StCameraAssistContent>{assistContent}</StCameraAssistContent>
+              </StRightCameraContainer>
+              <StCameraContainer />
+            </StUpperVerticalGroup>
+          </StUpperContainer>
+          <StLeftContainer>
+            <StBottomContainer>
+              <StIcon src={runnerGroup.runners[0].icon} />
+              <StBottomInfoContainer>
+                <StOneBottomLeft>
+                  <StOneTitleParagraph>
+                    {title}
+                  </StOneTitleParagraph>
+                  <StBottomInfo>
+                    <StNameParagraph>{runnerGroup.runners[0].name}</StNameParagraph>
+                    <StCameraCommentatorContainer $isVisible={0 < runnerGroup.commentators.length}>
+                      <p>{hasCommentator ? '解説 ' : ''}</p>
+                      {commentator}
+                    </StCameraCommentatorContainer>
+                    <StInfoDark>
+                      <RollParagraph p1={est} p2={category} p3={platform} />
+                    </StInfoDark>
+                  </StBottomInfo>
+
+                </StOneBottomLeft>
+                <StBottomRight>
+                  <StTimerLarge $showTimer={props.show_timer}>{(props.show_timer ? timerSplitParagraph![0] : null)}</StTimerLarge>
+                </StBottomRight>
+              </StBottomInfoContainer>
+            </StBottomContainer>
+          </StLeftContainer>
+        </StWrapper>
+      )
+    } else {
+      return (
+        <StWrapper $image_url={props.mask_image_filename}>
+          <StUpperContainer>
+            <StSquareFrame />
+            <StUpperVerticalGroup>
+              <StLogo>{logo}</StLogo>
+              <StRightContainer>
+                <StAssistContent>{assistContent}</StAssistContent>
+              </StRightContainer>
+            </StUpperVerticalGroup>
+          </StUpperContainer>
+          <StLeftContainer>
+            <StBottomContainer>
+              <StIcon src={runnerGroup.runners[0].icon} />
+              <StBottomInfoContainer>
+                <StOneBottomLeft>
+                  <StOneTitleParagraph>
+                    {title}
+                  </StOneTitleParagraph>
+                  <StBottomInfo>
+                    <StNameParagraph>{runnerGroup.runners[0].name}</StNameParagraph>
+                    <StCommentatorContainer $isVisible={0 < runnerGroup.commentators.length}>
+                      <p>{hasCommentator ? '解説 ' : ''}</p>
+                      {commentator}
+                    </StCommentatorContainer>
+                  </StBottomInfo>
+                </StOneBottomLeft>
+                <StBottomRight>
+                  <StTimer $showTimer={props.show_timer}>{(props.show_timer ? timerSplitParagraph![0] : null)}</StTimer>
+                  <StInfoRightGroup>
+                    <RollParagraph p1={est} p2={category} p3={platform} />
+                  </StInfoRightGroup>
+                </StBottomRight>
+              </StBottomInfoContainer>
+            </StBottomContainer>
+          </StLeftContainer>
+        </StWrapper>
+      )
+    }
+
   } else {
     return null
   }
@@ -102,6 +148,22 @@ const StRightContainer = styled(StVerticalGroup)`
   justify-content: center;
 `
 
+const StRightCameraContainer = styled(StRightContainer)`
+  padding: 10px 0;
+`
+
+const StCameraContainer = styled(StVerticalGroup)`
+  margin: 10px 10px 5px 0px;
+  border: 4px solid white;
+  border-radius: 8px;
+  padding: 0;
+  height:235px;
+  align-items: center;
+  justify-content: center;
+`
+
+
+
 const StBottomContainer = styled(StHorizontalGroup)`
   width: 100%;
   height: 204px;
@@ -127,6 +189,7 @@ const StLogo = styled.div`
 
 const StIcon = styled.img`
   max-height: 100%;
+  min-width: 204px;
   padding: 0 6px 6px 6px;
   object-fit: contain;
 `
@@ -165,22 +228,32 @@ const StBottomInfoContainer = styled(StHorizontalGroup)`
 `
 
 const StNameParagraph = styled.p`
+  margin-right:auto;
   padding-left: 40px;
   font-size: 2.2rem;
   font-weight: 900;
   text-align: left;
 `
 
-const StCommentatorContainer = styled(StVerticalGroup) <{ $isVisible: boolean }>`
-  font-size: 1.8rem;
+const StCommentatorContainer = styled(StHorizontalGroup) <{ $isVisible: boolean }>`
+  font-size: 2.2rem;
   font-weight: 900;
   text-align: center;
-  padding: 20px 0;
   display: ${(isVisible) => (isVisible.$isVisible ? 'flex' : 'none')};
   & > p:first-child {
     padding: 0 20px;
   }
+  padding-right: 40px;
 `
+
+const StCameraCommentatorContainer = styled(StCommentatorContainer) <{ $isVisible: boolean }>`
+  display: ${(isVisible) => (isVisible.$isVisible ? 'flex' : 'none')};
+  & > p:first-child {
+    padding: 0 20px;
+  }
+  padding-right: 0;
+`
+
 
 const StAssistContent = styled.div`
   width: 100%;
@@ -215,8 +288,44 @@ const StAssistContent = styled.div`
   }
 `
 
+const StCameraAssistContent = styled(StAssistContent)`
+  max-height: 403px;
+
+  width: 100%;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  p:first-child {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: clip;
+    color: rgb(255, 255, 0);
+  }
+  p:nth-child(2) {
+    font-weight: 700;
+    font-size: 1.6rem;
+    max-height: 446px;
+    padding: 4px 25px;
+    overflow-y: hidden;
+  }
+  p:nth-child(2):empty {
+    padding: 0;
+    height: 0;
+  }
+  & > img {
+    max-width: 100%;
+    max-height: 348px;
+    object-fit: contain;
+    flex: auto;
+  }
+`
+
 const StTimer = styled(StHorizontalGroup) <{ $showTimer: boolean }>`
-  width: 350px;
+  margin: 10px 25px 0;
+  width: 300px;
   height: 52px;
   background-color: ${(props) => (props.$showTimer ? 'rgb(65 87 145)' : 'transparent')};
   & > p {
@@ -227,7 +336,47 @@ const StTimer = styled(StHorizontalGroup) <{ $showTimer: boolean }>`
   }
 `
 
+const StBottomInfo = styled(StHorizontalGroup)`
+  justify-content: flex-end;
+`
+
+const StTimerLarge = styled(StHorizontalGroup) <{ $showTimer: boolean }>`
+  width: 350px;
+  height: 104px;
+  background-color: ${(props) => (props.$showTimer ? 'rgb(65 87 145)' : 'transparent')};
+  & > p {
+    font-size: 4.5rem;
+    font-weight: 900;
+    text-align: center;
+    font-family: 'Noto Sans Mono', monospace;
+  }
+`
+
+const StInfoDark = styled.div`
+  padding-top: 2px;
+  max-width: 700px;
+  height: 50px;
+  & > p {
+    margin-left: auto;
+    width:350px;
+    max-width:350px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #e9e9e9;
+    white-space: nowrap;
+    text-overflow: unset;
+  }
+
+  & > p:nth-child(2){
+    width: auto;
+    max-width:700px;
+    
+  }
+`
+
 const StInfoRightGroup = styled.div`
+  padding-top: 4px;
   max-width: 700px;
   height: 50px;
   & > p {
